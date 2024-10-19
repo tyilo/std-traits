@@ -1,6 +1,6 @@
-use crate::primitive::Primitive;
-
 use core::fmt::Debug;
+
+use crate::primitive::Primitive;
 
 pub trait Pointer: Primitive + Copy + Debug + Sized {}
 

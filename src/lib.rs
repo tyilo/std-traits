@@ -1,3 +1,5 @@
+#![no_std]
+
 pub mod array;
 pub mod fun;
 pub mod num;

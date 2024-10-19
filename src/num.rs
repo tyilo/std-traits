@@ -1,12 +1,14 @@
-use crate::{array::Array, primitive::Primitive};
+use core::{
+    fmt::{Debug, Display},
+    hash::Hash,
+    mem::{size_of, transmute},
+    num::FpCategory,
+    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
+    panic::{RefUnwindSafe, UnwindSafe},
+    str::FromStr,
+};
 
-use core::num::FpCategory;
-use core::fmt::{Debug, Display};
-use core::hash::Hash;
-use core::mem::transmute;
-use core::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
-use core::panic::{RefUnwindSafe, UnwindSafe};
-use core::str::FromStr;
+use crate::{array::Array, primitive::Primitive};
 
 pub trait NumberLike:
     Primitive
@@ -49,11 +51,13 @@ macro_rules! impl_number_like {
             const MAX: Self = $max;
 
             type Underlying = $number;
-            type ByteArray = [u8; std::mem::size_of::<Self>()];
+            type ByteArray = [u8; size_of::<Self>()];
 
             fn to_underlying(self) -> Self::Underlying {
                 #[allow(clippy::useless_transmute)]
-                unsafe { transmute::<Self, Self::Underlying>(self) }
+                unsafe {
+                    transmute::<Self, Self::Underlying>(self)
+                }
             }
 
             fn try_from_underlying(underlying: Self::Underlying) -> Option<Self> {
@@ -62,7 +66,9 @@ macro_rules! impl_number_like {
 
             fn to_bytes(self) -> Self::ByteArray {
                 #[allow(clippy::transmute_num_to_bytes)]
-                unsafe { transmute::<Self, Self::ByteArray>(self) }
+                unsafe {
+                    transmute::<Self, Self::ByteArray>(self)
+                }
             }
 
             fn try_from_bytes(bytes: Self::ByteArray) -> Option<Self> {
@@ -198,7 +204,7 @@ macro_rules! impl_float {
             fn to_unsigned(self) -> Self::Unsigned {
                 self.to_bits()
             }
-            
+
             fn classify(self) -> FpCategory {
                 self.classify()
             }
