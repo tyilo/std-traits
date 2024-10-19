@@ -1,4 +1,5 @@
 #![no_std]
+#![cfg_attr(docsrs, feature(rustdoc_internals))]
 
 pub mod array;
 pub mod fun;
