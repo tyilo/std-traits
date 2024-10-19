@@ -2,5 +2,13 @@
 name = "std-traits"
 version = "0.1.0"
 edition = "2021"
+authors = ["Asger Hautop Drewsen <asger@tyilo.com>"]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/tyilo/std-traits"
+description = "Traits for types in the standard library."
+categories = ["no-std", "no-std::no-alloc", "rust-patterns", "algorithms", "mathematics"]
+keywords = ["numerics", "primitives", "traits", "mathematics", "numerics"]
+rust-version = "1.59"
 
 [dependencies]
