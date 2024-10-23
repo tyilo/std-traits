@@ -63,11 +63,13 @@ impl<T> HomogeneousTuple<T> for (T,) {
     where
         Self: Sized,
     {
-        self.into()
+        [self.0]
     }
 
     fn from_array(array: Self::Array) -> Self {
-        array.into()
+        let res = unsafe { transmute_copy::<Self::Array, Self>(&array) };
+        forget(array);
+        res
     }
 }
 
