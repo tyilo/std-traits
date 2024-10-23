@@ -1,9 +1,14 @@
 use core::{
-    fmt::{Debug, Display},
+    fmt::{Binary, Debug, Display, LowerExp, LowerHex, Octal, UpperExp, UpperHex},
     hash::Hash,
+    iter::{Product, Sum},
     mem::{size_of, transmute},
     num::FpCategory,
-    ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign},
+    ops::{
+        Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Div,
+        DivAssign, Mul, MulAssign, Neg, Not, Rem, RemAssign, Shl, ShlAssign, Shr, ShrAssign, Sub,
+        SubAssign,
+    },
     panic::{RefUnwindSafe, UnwindSafe},
     str::FromStr,
 };
@@ -97,6 +102,8 @@ impl_number_like!(char,
 
 pub trait Number:
     NumberLike
+    + LowerExp
+    + UpperExp
     + Add<Self>
     + for<'a> Add<&'a Self>
     + AddAssign<Self>
@@ -113,6 +120,12 @@ pub trait Number:
     + for<'a> Div<&'a Self>
     + DivAssign<Self>
     + for<'a> DivAssign<&'a Self>
+    + Rem<Self>
+    + for<'a> Rem<&'a Self>
+    + RemAssign<Self>
+    + for<'a> RemAssign<&'a Self>
+    + Sum
+    + Product
 {
     fn from_bytes(bytes: Self::ByteArray) -> Self;
     fn as_mut_bytes(&mut self) -> &mut Self::ByteArray;
@@ -215,7 +228,37 @@ macro_rules! impl_float {
 impl_float!(f32, u32, 1e-45);
 impl_float!(f64, u64, 5e-324);
 
-pub trait Integer: Number + Ord + Eq + Hash {
+pub trait Integer:
+    Number
+    + Ord
+    + Eq
+    + Not
+    + BitAnd<Self>
+    + for<'a> BitAnd<&'a Self>
+    + BitAndAssign<Self>
+    + for<'a> BitAndAssign<&'a Self>
+    + BitOr<Self>
+    + for<'a> BitOr<&'a Self>
+    + BitOrAssign<Self>
+    + for<'a> BitOrAssign<&'a Self>
+    + BitXor<Self>
+    + for<'a> BitXor<&'a Self>
+    + BitXorAssign<Self>
+    + for<'a> BitXorAssign<&'a Self>
+    + Shl<Self>
+    + for<'a> Shl<&'a Self>
+    + ShlAssign<Self>
+    + for<'a> ShlAssign<&'a Self>
+    + Shr<Self>
+    + for<'a> Shr<&'a Self>
+    + ShrAssign<Self>
+    + for<'a> ShrAssign<&'a Self>
+    + Hash
+    + Binary
+    + Octal
+    + LowerHex
+    + UpperHex
+{
     type Unsigned: Unsigned;
     type Signed: Signed;
 
