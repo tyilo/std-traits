@@ -1,6 +1,6 @@
 [package]
 name = "std-traits"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 authors = ["Asger Hautop Drewsen <asger@tyilo.com>"]
 license = "MIT OR Apache-2.0"
