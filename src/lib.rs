@@ -1,6 +1,9 @@
 #![no_std]
 #![cfg_attr(docsrs, feature(rustdoc_internals))]
 
+#[cfg(feature = "alloc")]
+extern crate alloc;
+
 pub mod array;
 pub mod fun;
 pub mod num;

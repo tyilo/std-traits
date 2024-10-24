@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.59
+      - uses: dtolnay/rust-toolchain@1.77
       - run: cargo check
 
   test-miri:
