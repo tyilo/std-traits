@@ -131,12 +131,16 @@ pub trait Number:
     + Sum
     + Product
 {
+    const ZERO: Self;
+    const ONE: Self;
+    const TWO: Self;
+
     fn from_bytes(bytes: Self::ByteArray) -> Self;
     fn as_mut_bytes(&mut self) -> &mut Self::ByteArray;
 }
 
 macro_rules! impl_number {
-    ($ty:ty, min: $min:expr, max: $max:expr) => {
+    ($ty:ty, zero: $zero:expr, one: $one:expr, min: $min:expr, max: $max:expr) => {
         impl_number_like!($ty,
             underlying: Self,
             min: $min,
@@ -144,6 +148,10 @@ macro_rules! impl_number {
             try_from_underlying: |v| Some(v)
         );
         impl Number for $ty {
+            const ZERO: Self = $zero;
+            const ONE: Self = $one;
+            const TWO: Self = $one + $one;
+
             fn from_bytes(bytes: Self::ByteArray) -> Self {
                 unsafe { transmute::<Self::ByteArray, Self>(bytes) }
             }
@@ -177,6 +185,8 @@ pub trait Float: Number + From<f32> + From<bool> + Into<f64> {
     const INFINITY: Self;
     const NEG_INFINITY: Self;
 
+    const NEG_ZERO: Self;
+
     type Unsigned: Unsigned;
 
     /// `from_bits`
@@ -189,7 +199,7 @@ pub trait Float: Number + From<f32> + From<bool> + Into<f64> {
 
 macro_rules! impl_float {
     ($ty:ty, $unsigned:ty, $min_positive_subnormal:expr) => {
-        impl_number!($ty, min: Self::NEG_INFINITY, max: Self::INFINITY);
+        impl_number!($ty, zero: 0.0, one: 1.0, min: Self::NEG_INFINITY, max: Self::INFINITY);
         impl Float for $ty {
             const RADIX: u32 = Self::RADIX;
             const MANTISSA_DIGITS: u32 = Self::MANTISSA_DIGITS;
@@ -211,6 +221,8 @@ macro_rules! impl_float {
             const NAN: Self = Self::NAN;
             const INFINITY: Self = Self::INFINITY;
             const NEG_INFINITY: Self = Self::NEG_INFINITY;
+
+            const NEG_ZERO: Self = -0.0;
 
             type Unsigned = $unsigned;
 
@@ -292,7 +304,7 @@ pub trait Integer:
 
 macro_rules! impl_integer {
     ($ty:ty, $unsigned:ty, $signed:ty) => {
-        impl_number!($ty, min: Self::MIN, max: Self::MAX);
+        impl_number!($ty, zero: 0, one: 1, min: Self::MIN, max: Self::MAX);
         impl Integer for $ty {
             type Unsigned = $unsigned;
             type Signed = $signed;
