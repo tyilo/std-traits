@@ -35,7 +35,7 @@ pub trait NumberLike:
     /// Same as the builtin `MIN` associated constant, except that this is `NEG_INFINITY` for
     /// floats instead of the minimum finite value.
     const MIN: Self;
-    /// Same as the builtin `MAx` associated constant, except that this is `INFINITY` for
+    /// Same as the builtin `MAX` associated constant, except that this is `INFINITY` for
     /// floats instead of the maximum finite value.
     const MAX: Self;
 
@@ -124,6 +124,10 @@ pub trait Number:
     + for<'a> Rem<&'a Self>
     + RemAssign<Self>
     + for<'a> RemAssign<&'a Self>
+    + TryFrom<u8>
+    + TryFrom<u16>
+    + TryFrom<i8>
+    + TryFrom<i16>
     + Sum
     + Product
 {
@@ -151,7 +155,7 @@ macro_rules! impl_number {
     };
 }
 
-pub trait Float: Number {
+pub trait Float: Number + From<f32> + From<bool> + Into<f64> {
     const RADIX: u32;
     const MANTISSA_DIGITS: u32;
     const DIGITS: u32;
@@ -253,6 +257,26 @@ pub trait Integer:
     + for<'a> Shr<&'a Self>
     + ShrAssign<Self>
     + for<'a> ShrAssign<&'a Self>
+    + TryFrom<u32>
+    + TryFrom<u64>
+    + TryFrom<u128>
+    + TryFrom<usize>
+    + TryFrom<i32>
+    + TryFrom<i64>
+    + TryFrom<i128>
+    + TryFrom<isize>
+    + TryInto<u8>
+    + TryInto<u16>
+    + TryInto<u32>
+    + TryInto<u64>
+    + TryInto<u128>
+    + TryInto<usize>
+    + TryInto<i8>
+    + TryInto<i16>
+    + TryInto<i32>
+    + TryInto<i64>
+    + TryInto<i128>
+    + TryInto<isize>
     + Hash
     + Binary
     + Octal
@@ -286,7 +310,7 @@ macro_rules! impl_integer {
     };
 }
 
-pub trait Unsigned: Integer {}
+pub trait Unsigned: Integer + From<u8> {}
 
 macro_rules! impl_unsigned {
     ($ty:ty, $signed:ty) => {
@@ -302,7 +326,7 @@ impl_unsigned!(u64, i64);
 impl_unsigned!(u128, i128);
 impl_unsigned!(usize, isize);
 
-pub trait Signed: Integer + Neg {}
+pub trait Signed: Integer + Neg + From<i8> {}
 
 macro_rules! impl_signed {
     ($ty:ty, $unsigned:ty) => {
