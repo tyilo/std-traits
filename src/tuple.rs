@@ -1,5 +1,3 @@
-use core::mem::{forget, transmute_copy};
-
 use crate::{array::Array, primitive::Primitive};
 
 pub trait Tuple: Primitive {
@@ -38,14 +36,14 @@ impl<T> HomogeneousTuple<T> for () {
 #[cfg_attr(docsrs, doc(fake_variadic))]
 #[cfg_attr(
     docsrs,
-    doc = "This trait is implemented for tuples up to 16 items long."
+    doc = "This trait is implemented for tuples up to 12 items long."
 )]
 impl<T1: ?Sized> Primitive for (T1,) {}
 
 #[cfg_attr(docsrs, doc(fake_variadic))]
 #[cfg_attr(
     docsrs,
-    doc = "This trait is implemented for tuples up to 16 items long."
+    doc = "This trait is implemented for tuples up to 12 items long."
 )]
 impl<T1: ?Sized> Tuple for (T1,) {
     const N: usize = 1;
@@ -54,7 +52,7 @@ impl<T1: ?Sized> Tuple for (T1,) {
 #[cfg_attr(docsrs, doc(fake_variadic))]
 #[cfg_attr(
     docsrs,
-    doc = "This trait is implemented for tuples up to 16 items long."
+    doc = "This trait is implemented for tuples up to 12 items long."
 )]
 impl<T> HomogeneousTuple<T> for (T,) {
     type Array = [T; 1];
@@ -63,13 +61,11 @@ impl<T> HomogeneousTuple<T> for (T,) {
     where
         Self: Sized,
     {
-        [self.0]
+        self.into()
     }
 
     fn from_array(array: Self::Array) -> Self {
-        let res = unsafe { transmute_copy::<Self::Array, Self>(&array) };
-        forget(array);
-        res
+        array.into()
     }
 }
 
@@ -108,20 +104,18 @@ macro_rules! impl_tuple {
             where
                 Self: Sized
             {
-                [$(self.$i,)* self.$last_i]
+                self.into()
             }
 
             fn from_array(array: Self::Array) -> Self {
-                let res = unsafe { transmute_copy::<Self::Array, Self>(&array) };
-                forget(array);
-                res
+                array.into()
             }
         }
     }
 }
 
 /*
-for n in range(2, 17):
+for n in range(2, 13):
     print(f"impl_tuple!({n} => {', '.join(f'T{i} {i - 1}' for i in range(1, n))}; T{n} {n - 1});")
 */
 impl_tuple!(2 => T1 0; T2 1);
@@ -135,10 +129,6 @@ impl_tuple!(9 => T1 0, T2 1, T3 2, T4 3, T5 4, T6 5, T7 6, T8 7; T9 8);
 impl_tuple!(10 => T1 0, T2 1, T3 2, T4 3, T5 4, T6 5, T7 6, T8 7, T9 8; T10 9);
 impl_tuple!(11 => T1 0, T2 1, T3 2, T4 3, T5 4, T6 5, T7 6, T8 7, T9 8, T10 9; T11 10);
 impl_tuple!(12 => T1 0, T2 1, T3 2, T4 3, T5 4, T6 5, T7 6, T8 7, T9 8, T10 9, T11 10; T12 11);
-impl_tuple!(13 => T1 0, T2 1, T3 2, T4 3, T5 4, T6 5, T7 6, T8 7, T9 8, T10 9, T11 10, T12 11; T13 12);
-impl_tuple!(14 => T1 0, T2 1, T3 2, T4 3, T5 4, T6 5, T7 6, T8 7, T9 8, T10 9, T11 10, T12 11, T13 12; T14 13);
-impl_tuple!(15 => T1 0, T2 1, T3 2, T4 3, T5 4, T6 5, T7 6, T8 7, T9 8, T10 9, T11 10, T12 11, T13 12, T14 13; T15 14);
-impl_tuple!(16 => T1 0, T2 1, T3 2, T4 3, T5 4, T6 5, T7 6, T8 7, T9 8, T10 9, T11 10, T12 11, T13 12, T14 13, T15 14; T16 15);
 
 #[cfg(test)]
 mod test {
@@ -189,10 +179,10 @@ mod test {
     }
 
     #[test]
-    fn test_from_array_16() {
+    fn test_from_array_12() {
         test_from_array!(
             String, String, String, String, String, String, String, String, String, String, String,
-            String, String, String, String, String
+            String
         );
     }
 }
