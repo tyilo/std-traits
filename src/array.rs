@@ -92,3 +92,27 @@ impl<const N: usize, T> Array for [T; N] {
         self.each_mut()
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_index() {
+        fn first<T: Array>(v: &T) -> &T::Item {
+            &v[0]
+        }
+
+        assert_eq!(first(&[123, 456]), &123);
+    }
+
+    #[cfg(feature = "alloc")]
+    #[test]
+    fn test_to_vec() {
+        fn to_vec<T: Array>(v: T) -> alloc::vec::Vec<T::Item> {
+            v.into()
+        }
+
+        assert_eq!(to_vec([123, 456]), alloc::vec![123, 456]);
+    }
+}
