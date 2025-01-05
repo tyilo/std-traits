@@ -34,10 +34,10 @@ pub trait NumberLike:
     + 'static
 {
     /// Same as the builtin `MIN` associated constant, except that this is
-    /// `NEG_INFINITY` for floats instead of the minimum finite value.
+    /// [`NEG_INFINITY`](Float::NEG_INFINITY) for floats instead of the minimum finite value.
     const MIN: Self;
     /// Same as the builtin `MAX` associated constant, except that this is
-    /// `INFINITY` for floats instead of the maximum finite value.
+    /// [`INFINITY`](Float::INFINITY) for floats instead of the maximum finite value.
     const MAX: Self;
 
     type Underlying: Number;
