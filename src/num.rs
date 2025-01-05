@@ -291,6 +291,162 @@ pub trait Float: Number + From<f32> + From<bool> + Into<f64> {
     /// See [`f32::clamp`].
     fn clamp(self, min: Self, max: Self) -> Self;
 
+    /// See [`f32::floor`].
+    #[cfg(feature = "std")]
+    fn floor(self) -> Self;
+
+    /// See [`f32::ceil`].
+    #[cfg(feature = "std")]
+    fn ceil(self) -> Self;
+
+    /// See [`f32::round`].
+    #[cfg(feature = "std")]
+    fn round(self) -> Self;
+
+    /// See [`f32::round_ties_even`].
+    #[cfg(feature = "std")]
+    fn round_ties_even(self) -> Self;
+
+    /// See [`f32::trunc`].
+    #[cfg(feature = "std")]
+    fn trunc(self) -> Self;
+
+    /// See [`f32::fract`].
+    #[cfg(feature = "std")]
+    fn fract(self) -> Self;
+
+    /// See [`f32::abs`].
+    #[cfg(feature = "std")]
+    fn abs(self) -> Self;
+
+    /// See [`f32::signum`].
+    #[cfg(feature = "std")]
+    fn signum(self) -> Self;
+
+    /// See [`f32::copysign`].
+    #[cfg(feature = "std")]
+    fn copysign(self, sign: Self) -> Self;
+
+    /// See [`f32::mul_add`].
+    #[cfg(feature = "std")]
+    fn mul_add(self, a: Self, b: Self) -> Self;
+
+    /// See [`f32::div_euclid`].
+    #[cfg(feature = "std")]
+    fn div_euclid(self, rhs: Self) -> Self;
+
+    /// See [`f32::rem_euclid`].
+    #[cfg(feature = "std")]
+    fn rem_euclid(self, rhs: Self) -> Self;
+
+    /// See [`f32::powi`].
+    #[cfg(feature = "std")]
+    fn powi(self, n: i32) -> Self;
+
+    /// See [`f32::powf`].
+    #[cfg(feature = "std")]
+    fn powf(self, n: Self) -> Self;
+
+    /// See [`f32::sqrt`].
+    #[cfg(feature = "std")]
+    fn sqrt(self) -> Self;
+
+    /// See [`f32::exp`].
+    #[cfg(feature = "std")]
+    fn exp(self) -> Self;
+
+    /// See [`f32::exp2`].
+    #[cfg(feature = "std")]
+    fn exp2(self) -> Self;
+
+    /// See [`f32::ln`].
+    #[cfg(feature = "std")]
+    fn ln(self) -> Self;
+
+    /// See [`f32::log`].
+    #[cfg(feature = "std")]
+    fn log(self, base: Self) -> Self;
+
+    /// See [`f32::log2`].
+    #[cfg(feature = "std")]
+    fn log2(self) -> Self;
+
+    /// See [`f32::log10`].
+    #[cfg(feature = "std")]
+    fn log10(self) -> Self;
+
+    /// See [`f32::cbrt`].
+    #[cfg(feature = "std")]
+    fn cbrt(self) -> Self;
+
+    /// See [`f32::hypot`].
+    #[cfg(feature = "std")]
+    fn hypot(self, other: Self) -> Self;
+
+    /// See [`f32::sin`].
+    #[cfg(feature = "std")]
+    fn sin(self) -> Self;
+
+    /// See [`f32::cos`].
+    #[cfg(feature = "std")]
+    fn cos(self) -> Self;
+
+    /// See [`f32::tan`].
+    #[cfg(feature = "std")]
+    fn tan(self) -> Self;
+
+    /// See [`f32::asin`].
+    #[cfg(feature = "std")]
+    fn asin(self) -> Self;
+
+    /// See [`f32::acos`].
+    #[cfg(feature = "std")]
+    fn acos(self) -> Self;
+
+    /// See [`f32::atan`].
+    #[cfg(feature = "std")]
+    fn atan(self) -> Self;
+
+    /// See [`f32::atan2`].
+    #[cfg(feature = "std")]
+    fn atan2(self, other: Self) -> Self;
+
+    /// See [`f32::sin_cos`].
+    #[cfg(feature = "std")]
+    fn sin_cos(self) -> (Self, Self);
+
+    /// See [`f32::exp_m1`].
+    #[cfg(feature = "std")]
+    fn exp_m1(self) -> Self;
+
+    /// See [`f32::ln_1p`].
+    #[cfg(feature = "std")]
+    fn ln_1p(self) -> Self;
+
+    /// See [`f32::sinh`].
+    #[cfg(feature = "std")]
+    fn sinh(self) -> Self;
+
+    /// See [`f32::cosh`].
+    #[cfg(feature = "std")]
+    fn cosh(self) -> Self;
+
+    /// See [`f32::tanh`].
+    #[cfg(feature = "std")]
+    fn tanh(self) -> Self;
+
+    /// See [`f32::asinh`].
+    #[cfg(feature = "std")]
+    fn asinh(self) -> Self;
+
+    /// See [`f32::acosh`].
+    #[cfg(feature = "std")]
+    fn acosh(self) -> Self;
+
+    /// See [`f32::atanh`].
+    #[cfg(feature = "std")]
+    fn atanh(self) -> Self;
+
     // @END@ DECL FLOAT
 }
 
@@ -392,6 +548,201 @@ macro_rules! impl_float {
 
             fn clamp(self, min: Self, max: Self) -> Self {
                 Self::clamp(self, min, max)
+            }
+
+            #[cfg(feature = "std")]
+            fn floor(self) -> Self {
+                Self::floor(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn ceil(self) -> Self {
+                Self::ceil(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn round(self) -> Self {
+                Self::round(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn round_ties_even(self) -> Self {
+                Self::round_ties_even(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn trunc(self) -> Self {
+                Self::trunc(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn fract(self) -> Self {
+                Self::fract(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn abs(self) -> Self {
+                Self::abs(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn signum(self) -> Self {
+                Self::signum(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn copysign(self, sign: Self) -> Self {
+                Self::copysign(self, sign)
+            }
+
+            #[cfg(feature = "std")]
+            fn mul_add(self, a: Self, b: Self) -> Self {
+                Self::mul_add(self, a, b)
+            }
+
+            #[cfg(feature = "std")]
+            fn div_euclid(self, rhs: Self) -> Self {
+                Self::div_euclid(self, rhs)
+            }
+
+            #[cfg(feature = "std")]
+            fn rem_euclid(self, rhs: Self) -> Self {
+                Self::rem_euclid(self, rhs)
+            }
+
+            #[cfg(feature = "std")]
+            fn powi(self, n: i32) -> Self {
+                Self::powi(self, n)
+            }
+
+            #[cfg(feature = "std")]
+            fn powf(self, n: Self) -> Self {
+                Self::powf(self, n)
+            }
+
+            #[cfg(feature = "std")]
+            fn sqrt(self) -> Self {
+                Self::sqrt(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn exp(self) -> Self {
+                Self::exp(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn exp2(self) -> Self {
+                Self::exp2(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn ln(self) -> Self {
+                Self::ln(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn log(self, base: Self) -> Self {
+                Self::log(self, base)
+            }
+
+            #[cfg(feature = "std")]
+            fn log2(self) -> Self {
+                Self::log2(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn log10(self) -> Self {
+                Self::log10(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn cbrt(self) -> Self {
+                Self::cbrt(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn hypot(self, other: Self) -> Self {
+                Self::hypot(self, other)
+            }
+
+            #[cfg(feature = "std")]
+            fn sin(self) -> Self {
+                Self::sin(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn cos(self) -> Self {
+                Self::cos(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn tan(self) -> Self {
+                Self::tan(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn asin(self) -> Self {
+                Self::asin(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn acos(self) -> Self {
+                Self::acos(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn atan(self) -> Self {
+                Self::atan(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn atan2(self, other: Self) -> Self {
+                Self::atan2(self, other)
+            }
+
+            #[cfg(feature = "std")]
+            fn sin_cos(self) -> (Self, Self) {
+                Self::sin_cos(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn exp_m1(self) -> Self {
+                Self::exp_m1(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn ln_1p(self) -> Self {
+                Self::ln_1p(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn sinh(self) -> Self {
+                Self::sinh(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn cosh(self) -> Self {
+                Self::cosh(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn tanh(self) -> Self {
+                Self::tanh(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn asinh(self) -> Self {
+                Self::asinh(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn acosh(self) -> Self {
+                Self::acosh(self)
+            }
+
+            #[cfg(feature = "std")]
+            fn atanh(self) -> Self {
+                Self::atanh(self)
             }
 
             // @END@ IMPL FLOAT
@@ -522,5 +873,11 @@ mod test {
         assert_eq!(f32::MAX_NEGATIVE_SUBNORMAL, -f32::from_bits(1));
         assert_eq!(f64::MIN_POSITIVE_SUBNORMAL, f64::from_bits(1));
         assert_eq!(f64::MAX_NEGATIVE_SUBNORMAL, -f64::from_bits(1));
+    }
+
+    #[cfg(feature = "std")]
+    #[test]
+    fn test_float_floor() {
+        assert_eq!(<f64 as Float>::floor(1.5), 1.0);
     }
 }

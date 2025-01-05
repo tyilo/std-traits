@@ -12,6 +12,6 @@ keywords = ["numerics", "primitives", "traits", "mathematics", "numerics"]
 rust-version = "1.77"
 
 [features]
-default = ["alloc"]
-
+default = ["std"]
+std = ["alloc"]
 alloc = []

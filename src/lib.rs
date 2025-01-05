@@ -4,6 +4,9 @@
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
+#[cfg(feature = "std")]
+extern crate std;
+
 pub mod array;
 pub mod fun;
 pub mod num;

@@ -1,0 +1,127 @@
+1.0.0 · source
+pub fn floor(self) -> f32
+
+1.0.0 · source
+pub fn ceil(self) -> f32
+
+1.0.0 · source
+pub fn round(self) -> f32
+
+1.77.0 · source
+pub fn round_ties_even(self) -> f32
+
+1.0.0 · source
+pub fn trunc(self) -> f32
+
+1.0.0 · source
+pub fn fract(self) -> f32
+
+1.0.0 · source
+pub fn abs(self) -> f32
+
+1.0.0 · source
+pub fn signum(self) -> f32
+
+1.35.0 · source
+pub fn copysign(self, sign: f32) -> f32
+
+1.0.0 · source
+pub fn mul_add(self, a: f32, b: f32) -> f32
+
+1.38.0 · source
+pub fn div_euclid(self, rhs: f32) -> f32
+
+1.38.0 · source
+pub fn rem_euclid(self, rhs: f32) -> f32
+
+1.0.0 · source
+pub fn powi(self, n: i32) -> f32
+
+1.0.0 · source
+pub fn powf(self, n: f32) -> f32
+
+1.0.0 · source
+pub fn sqrt(self) -> f32
+
+1.0.0 · source
+pub fn exp(self) -> f32
+
+1.0.0 · source
+pub fn exp2(self) -> f32
+
+1.0.0 · source
+pub fn ln(self) -> f32
+
+1.0.0 · source
+pub fn log(self, base: f32) -> f32
+
+1.0.0 · source
+pub fn log2(self) -> f32
+
+1.0.0 · source
+pub fn log10(self) -> f32
+
+1.0.0 · source
+pub fn abs_sub(self, other: f32) -> f32
+👎Deprecated since 1.10.0: you probably meant (self - other).abs(): this operation is (self - other).max(0.0) except that abs_sub also propagates NaNs (also known as fdimf in C). If you truly need the positive difference, consider using that expression or the C function fdimf, depending on how you wish to handle NaN (please consider filing an issue describing your use-case too).
+
+1.0.0 · source
+pub fn cbrt(self) -> f32
+
+1.0.0 · source
+pub fn hypot(self, other: f32) -> f32
+
+1.0.0 · source
+pub fn sin(self) -> f32
+
+1.0.0 · source
+pub fn cos(self) -> f32
+
+1.0.0 · source
+pub fn tan(self) -> f32
+
+1.0.0 · source
+pub fn asin(self) -> f32
+
+1.0.0 · source
+pub fn acos(self) -> f32
+
+1.0.0 · source
+pub fn atan(self) -> f32
+
+1.0.0 · source
+pub fn atan2(self, other: f32) -> f32
+
+1.0.0 · source
+pub fn sin_cos(self) -> (f32, f32)
+
+1.0.0 · source
+pub fn exp_m1(self) -> f32
+
+1.0.0 · source
+pub fn ln_1p(self) -> f32
+
+1.0.0 · source
+pub fn sinh(self) -> f32
+
+1.0.0 · source
+pub fn cosh(self) -> f32
+
+1.0.0 · source
+pub fn tanh(self) -> f32
+
+1.0.0 · source
+pub fn asinh(self) -> f32
+
+1.0.0 · source
+pub fn acosh(self) -> f32
+
+1.0.0 · source
+pub fn atanh(self) -> f32
+
+source
+pub fn gamma(self) -> f32
+🔬This is a nightly-only experimental API. (float_gamma #99842)
+
+source
+pub fn ln_gamma(self) -> (f32, i32)
