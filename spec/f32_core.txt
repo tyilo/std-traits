@@ -1,0 +1,92 @@
+pub const fn is_nan(self) -> bool
+
+1.0.0 (const: 1.83.0) · source
+pub const fn is_infinite(self) -> bool
+
+1.0.0 (const: 1.83.0) · source
+pub const fn is_finite(self) -> bool
+
+1.53.0 (const: 1.83.0) · source
+pub const fn is_subnormal(self) -> bool
+
+1.0.0 (const: 1.83.0) · source
+pub const fn is_normal(self) -> bool
+
+1.0.0 (const: 1.83.0) · source
+pub const fn classify(self) -> FpCategory
+
+1.0.0 (const: 1.83.0) · source
+pub const fn is_sign_positive(self) -> bool
+
+1.0.0 (const: 1.83.0) · source
+pub const fn is_sign_negative(self) -> bool
+
+source
+pub const fn next_up(self) -> Self
+🔬This is a nightly-only experimental API. (float_next_up_down #91399)
+
+source
+pub const fn next_down(self) -> Self
+🔬This is a nightly-only experimental API. (float_next_up_down #91399)
+
+1.0.0 · source
+pub fn recip(self) -> f32
+
+1.7.0 · source
+pub fn to_degrees(self) -> f32
+
+1.7.0 · source
+pub fn to_radians(self) -> f32
+
+1.0.0 · source
+pub fn max(self, other: f32) -> f32
+
+1.0.0 · source
+pub fn min(self, other: f32) -> f32
+
+source
+pub fn maximum(self, other: f32) -> f32
+🔬This is a nightly-only experimental API. (float_minimum_maximum #91079)
+
+source
+pub fn minimum(self, other: f32) -> f32
+🔬This is a nightly-only experimental API. (float_minimum_maximum #91079)
+
+source
+pub fn midpoint(self, other: f32) -> f32
+🔬This is a nightly-only experimental API. (num_midpoint #110840)
+
+1.44.0 · source
+pub unsafe fn to_int_unchecked<Int>(self) -> Int
+where
+    Self: FloatToInt<Int>,
+
+1.20.0 (const: 1.83.0) · source
+pub const fn to_bits(self) -> u32
+
+1.20.0 (const: 1.83.0) · source
+pub const fn from_bits(v: u32) -> Self
+
+1.40.0 (const: 1.83.0) · source
+pub const fn to_be_bytes(self) -> [u8; 4]
+
+1.40.0 (const: 1.83.0) · source
+pub const fn to_le_bytes(self) -> [u8; 4]
+
+1.40.0 (const: 1.83.0) · source
+pub const fn to_ne_bytes(self) -> [u8; 4]
+
+1.40.0 (const: 1.83.0) · source
+pub const fn from_be_bytes(bytes: [u8; 4]) -> Self
+
+1.40.0 (const: 1.83.0) · source
+pub const fn from_le_bytes(bytes: [u8; 4]) -> Self
+
+1.40.0 (const: 1.83.0) · source
+pub const fn from_ne_bytes(bytes: [u8; 4]) -> Self
+
+1.62.0 · source
+pub fn total_cmp(&self, other: &Self) -> Ordering
+
+1.50.0 · source
+pub fn clamp(self, min: f32, max: f32) -> f32
