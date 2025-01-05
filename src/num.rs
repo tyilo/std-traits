@@ -33,11 +33,11 @@ pub trait NumberLike:
     + Sized
     + 'static
 {
-    /// Same as the builtin `MIN` associated constant, except that this is `NEG_INFINITY` for
-    /// floats instead of the minimum finite value.
+    /// Same as the builtin `MIN` associated constant, except that this is
+    /// `NEG_INFINITY` for floats instead of the minimum finite value.
     const MIN: Self;
-    /// Same as the builtin `MAX` associated constant, except that this is `INFINITY` for
-    /// floats instead of the maximum finite value.
+    /// Same as the builtin `MAX` associated constant, except that this is
+    /// `INFINITY` for floats instead of the maximum finite value.
     const MAX: Self;
 
     type Underlying: Number;
@@ -57,7 +57,13 @@ pub trait NumberLike:
 }
 
 macro_rules! impl_number_like {
-    ($ty:ty, underlying: $number:ty, min: $min:expr, max: $max:expr, try_from_underlying: $try_from_underlying:expr) => {
+    (
+        $ty:ty,
+        underlying: $number:ty,
+        min: $min:expr,
+        max: $max:expr,
+        try_from_underlying: $try_from_underlying:expr
+    ) => {
         impl Primitive for $ty {}
         impl NumberLike for $ty {
             const MIN: Self = $min;
