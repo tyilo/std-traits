@@ -46,6 +46,13 @@ pub trait NumberLike:
     fn try_from_underlying(underlying: Self::Underlying) -> Option<Self>;
     fn to_bytes(self) -> Self::ByteArray;
     fn try_from_bytes(bytes: Self::ByteArray) -> Option<Self>;
+
+    fn to_be_bytes(self) -> Self::ByteArray;
+    fn to_le_bytes(self) -> Self::ByteArray;
+    fn to_ne_bytes(self) -> Self::ByteArray;
+    fn try_from_be_bytes(bytes: Self::ByteArray) -> Option<Self>;
+    fn try_from_le_bytes(bytes: Self::ByteArray) -> Option<Self>;
+    fn try_from_ne_bytes(bytes: Self::ByteArray) -> Option<Self>;
 }
 
 macro_rules! impl_number_like {
@@ -78,6 +85,30 @@ macro_rules! impl_number_like {
 
             fn try_from_bytes(bytes: Self::ByteArray) -> Option<Self> {
                 Self::try_from_underlying(Self::Underlying::from_bytes(bytes))
+            }
+
+            fn to_be_bytes(self) -> Self::ByteArray {
+                self.to_underlying().to_be_bytes()
+            }
+
+            fn to_le_bytes(self) -> Self::ByteArray {
+                self.to_underlying().to_le_bytes()
+            }
+
+            fn to_ne_bytes(self) -> Self::ByteArray {
+                self.to_underlying().to_ne_bytes()
+            }
+
+            fn try_from_be_bytes(bytes: Self::ByteArray) -> Option<Self> {
+                Self::try_from_underlying(Self::Underlying::from_be_bytes(bytes))
+            }
+
+            fn try_from_le_bytes(bytes: Self::ByteArray) -> Option<Self> {
+                Self::try_from_underlying(Self::Underlying::from_le_bytes(bytes))
+            }
+
+            fn try_from_ne_bytes(bytes: Self::ByteArray) -> Option<Self> {
+                Self::try_from_underlying(Self::Underlying::from_ne_bytes(bytes))
             }
         }
     };
@@ -137,6 +168,10 @@ pub trait Number:
 
     fn from_bytes(bytes: Self::ByteArray) -> Self;
     fn as_mut_bytes(&mut self) -> &mut Self::ByteArray;
+
+    fn from_be_bytes(bytes: Self::ByteArray) -> Self;
+    fn from_le_bytes(bytes: Self::ByteArray) -> Self;
+    fn from_ne_bytes(bytes: Self::ByteArray) -> Self;
 }
 
 macro_rules! impl_number {
@@ -158,6 +193,18 @@ macro_rules! impl_number {
 
             fn as_mut_bytes(&mut self) -> &mut Self::ByteArray {
                 unsafe { transmute::<&mut Self, &mut Self::ByteArray>(self) }
+            }
+
+            fn from_be_bytes(bytes: Self::ByteArray) -> Self {
+                Self::from_be_bytes(bytes)
+            }
+
+            fn from_le_bytes(bytes: Self::ByteArray) -> Self {
+                Self::from_le_bytes(bytes)
+            }
+
+            fn from_ne_bytes(bytes: Self::ByteArray) -> Self {
+                Self::from_ne_bytes(bytes)
             }
         }
     };
