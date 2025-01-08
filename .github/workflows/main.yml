@@ -11,7 +11,23 @@ jobs:
       - uses: actions/setup-python@v5
       - uses: pre-commit/action@v3.0.1
 
-  test-stable:
+  test-stable-core:
+    name: cargo test stable
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test --no-default-features
+
+  test-stable-alloc:
+    name: cargo test stable
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test --no-default-features --features alloc
+
+  test-stable-std:
     name: cargo test stable
     runs-on: ubuntu-latest
     steps:
