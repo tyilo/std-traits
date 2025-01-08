@@ -90,6 +90,8 @@ TRAITS = {
             "from_be_bytes",
             "from_le_bytes",
             "from_ne_bytes",
+            "div_euclid",
+            "rem_euclid",
             # Has unstable trait bound
             "to_int_unchecked<Int>",
             # Deprecated
@@ -112,6 +114,8 @@ TRAITS = {
             "from_be_bytes",
             "from_le_bytes",
             "from_ne_bytes",
+            "div_euclid",
+            "rem_euclid",
             # Deprecated
             "min_value",
             "max_value",
