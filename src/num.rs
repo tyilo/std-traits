@@ -180,6 +180,7 @@ pub trait Number:
     + for<'a> Rem<&'a Self>
     + RemAssign<Self>
     + for<'a> RemAssign<&'a Self>
+    + From<bool>
     + TryFrom<u8>
     + TryFrom<u16>
     + TryFrom<i8>
@@ -273,7 +274,9 @@ macro_rules! impl_number {
     };
 }
 
-pub trait Float: Number + From<f32> + From<bool> + Into<f64> {
+pub trait Float:
+    Number + Neg + From<f32> + Into<f64> + From<i8> + From<i16> + From<u8> + From<u16>
+{
     const RADIX: u32;
     const MANTISSA_DIGITS: u32;
     const DIGITS: u32;
