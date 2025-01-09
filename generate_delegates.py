@@ -90,6 +90,7 @@ TRAITS = {
             "from_be_bytes",
             "from_le_bytes",
             "from_ne_bytes",
+            "abs",
             "div_euclid",
             "rem_euclid",
             # Has unstable trait bound
@@ -114,6 +115,7 @@ TRAITS = {
             "from_be_bytes",
             "from_le_bytes",
             "from_ne_bytes",
+            "abs",
             "div_euclid",
             "rem_euclid",
             # Deprecated
