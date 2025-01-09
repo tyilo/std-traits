@@ -331,6 +331,15 @@ pub trait Float: Number + From<f32> + From<bool> + Into<f64> {
     /// See [`f32::clamp`].
     fn clamp(self, min: Self, max: Self) -> Self;
 
+    /// See [`f32::abs`].
+    fn abs(self) -> Self;
+
+    /// See [`f32::signum`].
+    fn signum(self) -> Self;
+
+    /// See [`f32::copysign`].
+    fn copysign(self, sign: Self) -> Self;
+
     /// See [`f32::floor`].
     #[cfg(feature = "std")]
     fn floor(self) -> Self;
@@ -354,18 +363,6 @@ pub trait Float: Number + From<f32> + From<bool> + Into<f64> {
     /// See [`f32::fract`].
     #[cfg(feature = "std")]
     fn fract(self) -> Self;
-
-    /// See [`f32::abs`].
-    #[cfg(feature = "std")]
-    fn abs(self) -> Self;
-
-    /// See [`f32::signum`].
-    #[cfg(feature = "std")]
-    fn signum(self) -> Self;
-
-    /// See [`f32::copysign`].
-    #[cfg(feature = "std")]
-    fn copysign(self, sign: Self) -> Self;
 
     /// See [`f32::mul_add`].
     #[cfg(feature = "std")]
@@ -582,6 +579,18 @@ macro_rules! impl_float {
                 Self::clamp(self, min, max)
             }
 
+            fn abs(self) -> Self {
+                Self::abs(self)
+            }
+
+            fn signum(self) -> Self {
+                Self::signum(self)
+            }
+
+            fn copysign(self, sign: Self) -> Self {
+                Self::copysign(self, sign)
+            }
+
             #[cfg(feature = "std")]
             fn floor(self) -> Self {
                 Self::floor(self)
@@ -610,21 +619,6 @@ macro_rules! impl_float {
             #[cfg(feature = "std")]
             fn fract(self) -> Self {
                 Self::fract(self)
-            }
-
-            #[cfg(feature = "std")]
-            fn abs(self) -> Self {
-                Self::abs(self)
-            }
-
-            #[cfg(feature = "std")]
-            fn signum(self) -> Self {
-                Self::signum(self)
-            }
-
-            #[cfg(feature = "std")]
-            fn copysign(self, sign: Self) -> Self {
-                Self::copysign(self, sign)
             }
 
             #[cfg(feature = "std")]
@@ -1023,6 +1017,9 @@ pub trait Integer:
     /// See [`i32::pow`].
     fn pow(self, exp: u32) -> Self;
 
+    /// See [`i32::isqrt`].
+    fn isqrt(self) -> Self;
+
     /// See [`i32::ilog`].
     fn ilog(self, base: Self) -> u32;
 
@@ -1304,6 +1301,10 @@ macro_rules! impl_integer {
                 Self::pow(self, exp)
             }
 
+            fn isqrt(self) -> Self {
+                Self::isqrt(self)
+            }
+
             fn ilog(self, base: Self) -> u32 {
                 Self::ilog(self, base)
             }
@@ -1450,6 +1451,9 @@ pub trait Signed: Integer + Neg + From<i8> {
     /// See [`i32::checked_abs`].
     fn checked_abs(self) -> Option<Self>;
 
+    /// See [`i32::checked_isqrt`].
+    fn checked_isqrt(self) -> Option<Self>;
+
     /// See [`i32::saturating_add_unsigned`].
     fn saturating_add_unsigned(self, rhs: Self::Unsigned) -> Self;
 
@@ -1515,6 +1519,10 @@ macro_rules! impl_signed {
 
             fn checked_abs(self) -> Option<Self> {
                 Self::checked_abs(self)
+            }
+
+            fn checked_isqrt(self) -> Option<Self> {
+                Self::checked_isqrt(self)
             }
 
             fn saturating_add_unsigned(self, rhs: Self::Unsigned) -> Self {

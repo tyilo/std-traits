@@ -9,7 +9,7 @@ repository = "https://github.com/tyilo/std-traits"
 description = "Traits for types in the standard library."
 categories = ["no-std", "no-std::no-alloc", "rust-patterns", "algorithms", "mathematics"]
 keywords = ["numerics", "primitives", "traits", "mathematics", "numerics"]
-rust-version = "1.77"
+rust-version = "1.84"
 
 [features]
 default = ["std"]
