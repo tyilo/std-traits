@@ -7,15 +7,15 @@ jobs:
     name: pre-commit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6.0.1
+      - uses: actions/setup-python@v6.1.0
       - uses: pre-commit/action@v3.0.1
 
   test-stable-core:
     name: cargo test stable
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.1
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo test --no-default-features
 
@@ -23,7 +23,7 @@ jobs:
     name: cargo test stable
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.1
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo test --no-default-features --features alloc
 
@@ -31,7 +31,7 @@ jobs:
     name: cargo test stable
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.1
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo test
 
@@ -39,7 +39,7 @@ jobs:
     name: cargo check msrv
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.1
       - uses: dtolnay/rust-toolchain@1.91
       - run: cargo check
 
@@ -47,7 +47,7 @@ jobs:
     name: cargo miri test nightly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.1
       - uses: dtolnay/rust-toolchain@miri
       - run: cargo miri setup
       - run: cargo miri test
@@ -56,7 +56,7 @@ jobs:
     name: cargo doc stable
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.1
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo doc
 
@@ -64,6 +64,6 @@ jobs:
     name: cargo doc nightly --cfg docrs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.1
       - uses: dtolnay/rust-toolchain@nightly
       - run: RUSTDOCFLAGS='--cfg docsrs' cargo doc
