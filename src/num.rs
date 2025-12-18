@@ -15,7 +15,6 @@
 //!         - [`u8`], [`u16`], [`u32`], [`u64`], [`u128`], [`usize`]
 
 use core::{
-    cmp::Ordering,
     fmt::{Binary, Debug, Display, LowerExp, LowerHex, Octal, UpperExp, UpperHex},
     hash::Hash,
     iter::{Product, Sum},
@@ -368,7 +367,7 @@ pub trait Float:
     fn from_bits(v: Self::Bits) -> Self;
 
     /// See [`f32::total_cmp`].
-    fn total_cmp(&self, other: &Self) -> Ordering;
+    fn total_cmp(&self, other: &Self) -> core::cmp::Ordering;
 
     /// See [`f32::clamp`].
     #[must_use = "method returns a new number and does not mutate the original value"]
@@ -662,7 +661,7 @@ macro_rules! impl_float {
                 Self::from_bits(v)
             }
 
-            fn total_cmp(&self, other: &Self) -> Ordering {
+            fn total_cmp(&self, other: &Self) -> core::cmp::Ordering {
                 Self::total_cmp(self, other)
             }
 

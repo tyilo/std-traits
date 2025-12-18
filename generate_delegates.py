@@ -37,8 +37,6 @@ def stringify_type(d: dict[str, Any]) -> str:
             return f"({', '.join(stringify_type(v) for v in inner)})"
         case "resolved_path":
             s = inner["path"]
-            if s == "crate::cmp::Ordering":
-                return "Ordering"
             args = inner["args"]
             if args:
                 [(arg_typ, arg_inner)] = args.items()
@@ -264,16 +262,24 @@ def print_decl(dst: IO[str], indent: str, trait: Trait, impl: bool) -> None:
 
     for is_std, fns in enumerate([trait.core_fns, std_fns]):
         if is_std:
+            crate_name = "std"
             cfg = f'{indent}#[cfg(feature = "std")]\n'
         else:
+            crate_name = "core"
             cfg = ""
         for fn in fns:
             if fn.name in trait.ignores:
                 continue
 
-            definition = fn.definition.replace(trait.example_implementor, "Self")
-            call = fn.call.replace(trait.example_implementor, "Self")
-            for k, v in trait.replacements.items():
+            replacements = {
+
+                trait.example_implementor: "Self",
+                "crate::": f"{crate_name}::",
+            } | trait.replacements
+
+            definition = fn.definition
+            call = fn.call
+            for k, v in replacements.items():
                 definition = definition.replace(k, v)
                 call = call.replace(k, v)
 
