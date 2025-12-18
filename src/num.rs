@@ -92,6 +92,7 @@ macro_rules! impl_number_like {
 
             fn to_underlying(self) -> Self::Underlying {
                 #[allow(clippy::useless_transmute)]
+                #[allow(unnecessary_transmutes)]
                 unsafe {
                     transmute::<Self, Self::Underlying>(self)
                 }
@@ -102,7 +103,7 @@ macro_rules! impl_number_like {
             }
 
             fn to_bytes(self) -> Self::ByteArray {
-                #[allow(clippy::transmute_num_to_bytes)]
+                #[allow(unnecessary_transmutes)]
                 unsafe {
                     transmute::<Self, Self::ByteArray>(self)
                 }
@@ -234,6 +235,7 @@ macro_rules! impl_number {
             const TWO: Self = $one + $one;
 
             fn from_bytes(bytes: Self::ByteArray) -> Self {
+                #[allow(unnecessary_transmutes)]
                 unsafe { transmute::<Self::ByteArray, Self>(bytes) }
             }
 
@@ -329,6 +331,12 @@ pub trait Float:
     /// See [`f32::is_sign_negative`].
     fn is_sign_negative(self) -> bool;
 
+    /// See [`f32::next_up`].
+    fn next_up(self) -> Self;
+
+    /// See [`f32::next_down`].
+    fn next_down(self) -> Self;
+
     /// See [`f32::recip`].
     fn recip(self) -> Self;
 
@@ -343,6 +351,9 @@ pub trait Float:
 
     /// See [`f32::min`].
     fn min(self, other: Self) -> Self;
+
+    /// See [`f32::midpoint`].
+    fn midpoint(self, other: Self) -> Self;
 
     /// See [`f32::to_bits`].
     fn to_bits(self) -> Self::Bits;
@@ -570,6 +581,14 @@ macro_rules! impl_float {
                 Self::is_sign_negative(self)
             }
 
+            fn next_up(self) -> Self {
+                Self::next_up(self)
+            }
+
+            fn next_down(self) -> Self {
+                Self::next_down(self)
+            }
+
             fn recip(self) -> Self {
                 Self::recip(self)
             }
@@ -588,6 +607,10 @@ macro_rules! impl_float {
 
             fn min(self, other: Self) -> Self {
                 Self::min(self, other)
+            }
+
+            fn midpoint(self, other: Self) -> Self {
+                Self::midpoint(self, other)
             }
 
             fn to_bits(self) -> Self::Bits {
@@ -903,6 +926,9 @@ pub trait Integer:
     /// See [`i32::checked_add`].
     fn checked_add(self, rhs: Self) -> Option<Self>;
 
+    /// See [`i32::strict_add`].
+    fn strict_add(self, rhs: Self) -> Self;
+
     /// See [`i32::unchecked_add`].
     ///
     /// # Safety
@@ -912,6 +938,9 @@ pub trait Integer:
 
     /// See [`i32::checked_sub`].
     fn checked_sub(self, rhs: Self) -> Option<Self>;
+
+    /// See [`i32::strict_sub`].
+    fn strict_sub(self, rhs: Self) -> Self;
 
     /// See [`i32::unchecked_sub`].
     ///
@@ -923,6 +952,9 @@ pub trait Integer:
     /// See [`i32::checked_mul`].
     fn checked_mul(self, rhs: Self) -> Option<Self>;
 
+    /// See [`i32::strict_mul`].
+    fn strict_mul(self, rhs: Self) -> Self;
+
     /// See [`i32::unchecked_mul`].
     ///
     /// # Safety
@@ -933,26 +965,56 @@ pub trait Integer:
     /// See [`i32::checked_div`].
     fn checked_div(self, rhs: Self) -> Option<Self>;
 
+    /// See [`i32::strict_div`].
+    fn strict_div(self, rhs: Self) -> Self;
+
     /// See [`i32::checked_div_euclid`].
     fn checked_div_euclid(self, rhs: Self) -> Option<Self>;
+
+    /// See [`i32::strict_div_euclid`].
+    fn strict_div_euclid(self, rhs: Self) -> Self;
 
     /// See [`i32::checked_rem`].
     fn checked_rem(self, rhs: Self) -> Option<Self>;
 
+    /// See [`i32::strict_rem`].
+    fn strict_rem(self, rhs: Self) -> Self;
+
     /// See [`i32::checked_rem_euclid`].
     fn checked_rem_euclid(self, rhs: Self) -> Option<Self>;
+
+    /// See [`i32::strict_rem_euclid`].
+    fn strict_rem_euclid(self, rhs: Self) -> Self;
 
     /// See [`i32::checked_neg`].
     fn checked_neg(self) -> Option<Self>;
 
+    /// See [`i32::strict_neg`].
+    fn strict_neg(self) -> Self;
+
     /// See [`i32::checked_shl`].
     fn checked_shl(self, rhs: u32) -> Option<Self>;
+
+    /// See [`i32::strict_shl`].
+    fn strict_shl(self, rhs: u32) -> Self;
+
+    /// See [`i32::unbounded_shl`].
+    fn unbounded_shl(self, rhs: u32) -> Self;
 
     /// See [`i32::checked_shr`].
     fn checked_shr(self, rhs: u32) -> Option<Self>;
 
+    /// See [`i32::strict_shr`].
+    fn strict_shr(self, rhs: u32) -> Self;
+
+    /// See [`i32::unbounded_shr`].
+    fn unbounded_shr(self, rhs: u32) -> Self;
+
     /// See [`i32::checked_pow`].
     fn checked_pow(self, exp: u32) -> Option<Self>;
+
+    /// See [`i32::strict_pow`].
+    fn strict_pow(self, exp: u32) -> Self;
 
     /// See [`i32::saturating_add`].
     fn saturating_add(self, rhs: Self) -> Self;
@@ -1062,6 +1124,9 @@ pub trait Integer:
     /// See [`i32::abs_diff`].
     fn abs_diff(self, other: Self) -> Self::Unsigned;
 
+    /// See [`i32::midpoint`].
+    fn midpoint(self, rhs: Self) -> Self;
+
     /// See [`i32::from_str_radix`].
     fn from_str_radix(src: &str, radix: u32) -> Result<Self, ParseIntError>;
 
@@ -1085,21 +1150,25 @@ macro_rules! impl_integer {
 
             fn from_unsigned(v: Self::Unsigned) -> Self {
                 #[allow(clippy::useless_transmute)]
+                #[allow(unnecessary_transmutes)]
                 unsafe { transmute::<Self::Unsigned, Self>(v) }
             }
 
             fn from_signed(v: Self::Signed) -> Self {
                 #[allow(clippy::useless_transmute)]
+                #[allow(unnecessary_transmutes)]
                 unsafe { transmute::<Self::Signed, Self>(v) }
             }
 
             fn to_unsigned(self) -> Self::Unsigned {
                 #[allow(clippy::useless_transmute)]
+                #[allow(unnecessary_transmutes)]
                 unsafe { transmute::<Self, Self::Unsigned>(self) }
             }
 
             fn to_signed(self) -> Self::Signed {
                 #[allow(clippy::useless_transmute)]
+                #[allow(unnecessary_transmutes)]
                 unsafe { transmute::<Self, Self::Signed>(self) }
             }
 
@@ -1176,12 +1245,20 @@ macro_rules! impl_integer {
                 Self::checked_add(self, rhs)
             }
 
+            fn strict_add(self, rhs: Self) -> Self {
+                Self::strict_add(self, rhs)
+            }
+
             unsafe fn unchecked_add(self, rhs: Self) -> Self {
                 Self::unchecked_add(self, rhs)
             }
 
             fn checked_sub(self, rhs: Self) -> Option<Self> {
                 Self::checked_sub(self, rhs)
+            }
+
+            fn strict_sub(self, rhs: Self) -> Self {
+                Self::strict_sub(self, rhs)
             }
 
             unsafe fn unchecked_sub(self, rhs: Self) -> Self {
@@ -1192,6 +1269,10 @@ macro_rules! impl_integer {
                 Self::checked_mul(self, rhs)
             }
 
+            fn strict_mul(self, rhs: Self) -> Self {
+                Self::strict_mul(self, rhs)
+            }
+
             unsafe fn unchecked_mul(self, rhs: Self) -> Self {
                 Self::unchecked_mul(self, rhs)
             }
@@ -1200,32 +1281,72 @@ macro_rules! impl_integer {
                 Self::checked_div(self, rhs)
             }
 
+            fn strict_div(self, rhs: Self) -> Self {
+                Self::strict_div(self, rhs)
+            }
+
             fn checked_div_euclid(self, rhs: Self) -> Option<Self> {
                 Self::checked_div_euclid(self, rhs)
+            }
+
+            fn strict_div_euclid(self, rhs: Self) -> Self {
+                Self::strict_div_euclid(self, rhs)
             }
 
             fn checked_rem(self, rhs: Self) -> Option<Self> {
                 Self::checked_rem(self, rhs)
             }
 
+            fn strict_rem(self, rhs: Self) -> Self {
+                Self::strict_rem(self, rhs)
+            }
+
             fn checked_rem_euclid(self, rhs: Self) -> Option<Self> {
                 Self::checked_rem_euclid(self, rhs)
+            }
+
+            fn strict_rem_euclid(self, rhs: Self) -> Self {
+                Self::strict_rem_euclid(self, rhs)
             }
 
             fn checked_neg(self) -> Option<Self> {
                 Self::checked_neg(self)
             }
 
+            fn strict_neg(self) -> Self {
+                Self::strict_neg(self)
+            }
+
             fn checked_shl(self, rhs: u32) -> Option<Self> {
                 Self::checked_shl(self, rhs)
+            }
+
+            fn strict_shl(self, rhs: u32) -> Self {
+                Self::strict_shl(self, rhs)
+            }
+
+            fn unbounded_shl(self, rhs: u32) -> Self {
+                Self::unbounded_shl(self, rhs)
             }
 
             fn checked_shr(self, rhs: u32) -> Option<Self> {
                 Self::checked_shr(self, rhs)
             }
 
+            fn strict_shr(self, rhs: u32) -> Self {
+                Self::strict_shr(self, rhs)
+            }
+
+            fn unbounded_shr(self, rhs: u32) -> Self {
+                Self::unbounded_shr(self, rhs)
+            }
+
             fn checked_pow(self, exp: u32) -> Option<Self> {
                 Self::checked_pow(self, exp)
+            }
+
+            fn strict_pow(self, exp: u32) -> Self {
+                Self::strict_pow(self, exp)
             }
 
             fn saturating_add(self, rhs: Self) -> Self {
@@ -1372,6 +1493,10 @@ macro_rules! impl_integer {
                 Self::abs_diff(self, other)
             }
 
+            fn midpoint(self, rhs: Self) -> Self {
+                Self::midpoint(self, rhs)
+            }
+
             fn from_str_radix(src: &str, radix: u32) -> Result<Self, ParseIntError> {
                 Self::from_str_radix(src, radix)
             }
@@ -1385,17 +1510,53 @@ pub trait Unsigned: Integer<Unsigned = Self> + From<u8> {
     // @START@ DECL UNSIGNED
     // Generated by generate_delegates.py
 
+    /// See [`u32::cast_signed`].
+    fn cast_signed(self) -> Self::Signed;
+
     /// See [`u32::checked_add_signed`].
     fn checked_add_signed(self, rhs: Self::Signed) -> Option<Self>;
+
+    /// See [`u32::strict_add_signed`].
+    fn strict_add_signed(self, rhs: Self::Signed) -> Self;
+
+    /// See [`u32::checked_sub_signed`].
+    fn checked_sub_signed(self, rhs: Self::Signed) -> Option<Self>;
+
+    /// See [`u32::strict_sub_signed`].
+    fn strict_sub_signed(self, rhs: Self::Signed) -> Self;
+
+    /// See [`u32::checked_signed_diff`].
+    fn checked_signed_diff(self, rhs: Self) -> Option<Self::Signed>;
 
     /// See [`u32::saturating_add_signed`].
     fn saturating_add_signed(self, rhs: Self::Signed) -> Self;
 
+    /// See [`u32::saturating_sub_signed`].
+    fn saturating_sub_signed(self, rhs: Self::Signed) -> Self;
+
     /// See [`u32::wrapping_add_signed`].
     fn wrapping_add_signed(self, rhs: Self::Signed) -> Self;
 
+    /// See [`u32::wrapping_sub_signed`].
+    fn wrapping_sub_signed(self, rhs: Self::Signed) -> Self;
+
+    /// See [`u32::carrying_add`].
+    fn carrying_add(self, rhs: Self, carry: bool) -> (Self, bool);
+
     /// See [`u32::overflowing_add_signed`].
     fn overflowing_add_signed(self, rhs: Self::Signed) -> (Self, bool);
+
+    /// See [`u32::borrowing_sub`].
+    fn borrowing_sub(self, rhs: Self, borrow: bool) -> (Self, bool);
+
+    /// See [`u32::overflowing_sub_signed`].
+    fn overflowing_sub_signed(self, rhs: Self::Signed) -> (Self, bool);
+
+    /// See [`u32::carrying_mul`].
+    fn carrying_mul(self, rhs: Self, carry: Self) -> (Self, Self);
+
+    /// See [`u32::carrying_mul_add`].
+    fn carrying_mul_add(self, rhs: Self, carry: Self, add: Self) -> (Self, Self);
 
     /// See [`u32::div_ceil`].
     fn div_ceil(self, rhs: Self) -> Self;
@@ -1405,6 +1566,9 @@ pub trait Unsigned: Integer<Unsigned = Self> + From<u8> {
 
     /// See [`u32::checked_next_multiple_of`].
     fn checked_next_multiple_of(self, rhs: Self) -> Option<Self>;
+
+    /// See [`u32::is_multiple_of`].
+    fn is_multiple_of(self, rhs: Self) -> bool;
 
     /// See [`u32::is_power_of_two`].
     fn is_power_of_two(self) -> bool;
@@ -1431,20 +1595,68 @@ macro_rules! impl_unsigned {
             // @START@ IMPL UNSIGNED
             // Generated by generate_delegates.py
 
+            fn cast_signed(self) -> Self::Signed {
+                Self::cast_signed(self)
+            }
+
             fn checked_add_signed(self, rhs: Self::Signed) -> Option<Self> {
                 Self::checked_add_signed(self, rhs)
+            }
+
+            fn strict_add_signed(self, rhs: Self::Signed) -> Self {
+                Self::strict_add_signed(self, rhs)
+            }
+
+            fn checked_sub_signed(self, rhs: Self::Signed) -> Option<Self> {
+                Self::checked_sub_signed(self, rhs)
+            }
+
+            fn strict_sub_signed(self, rhs: Self::Signed) -> Self {
+                Self::strict_sub_signed(self, rhs)
+            }
+
+            fn checked_signed_diff(self, rhs: Self) -> Option<Self::Signed> {
+                Self::checked_signed_diff(self, rhs)
             }
 
             fn saturating_add_signed(self, rhs: Self::Signed) -> Self {
                 Self::saturating_add_signed(self, rhs)
             }
 
+            fn saturating_sub_signed(self, rhs: Self::Signed) -> Self {
+                Self::saturating_sub_signed(self, rhs)
+            }
+
             fn wrapping_add_signed(self, rhs: Self::Signed) -> Self {
                 Self::wrapping_add_signed(self, rhs)
             }
 
+            fn wrapping_sub_signed(self, rhs: Self::Signed) -> Self {
+                Self::wrapping_sub_signed(self, rhs)
+            }
+
+            fn carrying_add(self, rhs: Self, carry: bool) -> (Self, bool) {
+                Self::carrying_add(self, rhs, carry)
+            }
+
             fn overflowing_add_signed(self, rhs: Self::Signed) -> (Self, bool) {
                 Self::overflowing_add_signed(self, rhs)
+            }
+
+            fn borrowing_sub(self, rhs: Self, borrow: bool) -> (Self, bool) {
+                Self::borrowing_sub(self, rhs, borrow)
+            }
+
+            fn overflowing_sub_signed(self, rhs: Self::Signed) -> (Self, bool) {
+                Self::overflowing_sub_signed(self, rhs)
+            }
+
+            fn carrying_mul(self, rhs: Self, carry: Self) -> (Self, Self) {
+                Self::carrying_mul(self, rhs, carry)
+            }
+
+            fn carrying_mul_add(self, rhs: Self, carry: Self, add: Self) -> (Self, Self) {
+                Self::carrying_mul_add(self, rhs, carry, add)
             }
 
             fn div_ceil(self, rhs: Self) -> Self {
@@ -1457,6 +1669,10 @@ macro_rules! impl_unsigned {
 
             fn checked_next_multiple_of(self, rhs: Self) -> Option<Self> {
                 Self::checked_next_multiple_of(self, rhs)
+            }
+
+            fn is_multiple_of(self, rhs: Self) -> bool {
+                Self::is_multiple_of(self, rhs)
             }
 
             fn is_power_of_two(self) -> bool {
@@ -1487,14 +1703,26 @@ pub trait Signed: Integer<Signed = Self> + Neg + From<i8> {
     // @START@ DECL SIGNED
     // Generated by generate_delegates.py
 
+    /// See [`i32::cast_unsigned`].
+    fn cast_unsigned(self) -> Self::Unsigned;
+
     /// See [`i32::checked_add_unsigned`].
     fn checked_add_unsigned(self, rhs: Self::Unsigned) -> Option<Self>;
+
+    /// See [`i32::strict_add_unsigned`].
+    fn strict_add_unsigned(self, rhs: Self::Unsigned) -> Self;
 
     /// See [`i32::checked_sub_unsigned`].
     fn checked_sub_unsigned(self, rhs: Self::Unsigned) -> Option<Self>;
 
+    /// See [`i32::strict_sub_unsigned`].
+    fn strict_sub_unsigned(self, rhs: Self::Unsigned) -> Self;
+
     /// See [`i32::checked_abs`].
     fn checked_abs(self) -> Option<Self>;
+
+    /// See [`i32::strict_abs`].
+    fn strict_abs(self) -> Self;
 
     /// See [`i32::checked_isqrt`].
     fn checked_isqrt(self) -> Option<Self>;
@@ -1554,16 +1782,32 @@ macro_rules! impl_signed {
             // @START@ IMPL SIGNED
             // Generated by generate_delegates.py
 
+            fn cast_unsigned(self) -> Self::Unsigned {
+                Self::cast_unsigned(self)
+            }
+
             fn checked_add_unsigned(self, rhs: Self::Unsigned) -> Option<Self> {
                 Self::checked_add_unsigned(self, rhs)
+            }
+
+            fn strict_add_unsigned(self, rhs: Self::Unsigned) -> Self {
+                Self::strict_add_unsigned(self, rhs)
             }
 
             fn checked_sub_unsigned(self, rhs: Self::Unsigned) -> Option<Self> {
                 Self::checked_sub_unsigned(self, rhs)
             }
 
+            fn strict_sub_unsigned(self, rhs: Self::Unsigned) -> Self {
+                Self::strict_sub_unsigned(self, rhs)
+            }
+
             fn checked_abs(self) -> Option<Self> {
                 Self::checked_abs(self)
+            }
+
+            fn strict_abs(self) -> Self {
+                Self::strict_abs(self)
             }
 
             fn checked_isqrt(self) -> Option<Self> {

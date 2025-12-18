@@ -1,6 +1,6 @@
 [package]
 name = "std-traits"
-version = "0.4.0"
+version = "0.5.0"
 edition = "2021"
 authors = ["Asger Hautop Drewsen <asger@tyilo.com>"]
 license = "MIT OR Apache-2.0"
@@ -9,7 +9,7 @@ repository = "https://github.com/tyilo/std-traits"
 description = "Traits for types in the standard library."
 categories = ["no-std", "no-std::no-alloc", "rust-patterns", "algorithms", "mathematics"]
 keywords = ["numerics", "primitives", "traits", "mathematics", "numerics"]
-rust-version = "1.84"
+rust-version = "1.91"
 
 [features]
 default = ["std"]

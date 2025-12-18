@@ -32,8 +32,23 @@ pub const fn leading_ones(self) -> u32
 pub const fn trailing_ones(self) -> u32
 
 Source
+pub const fn isolate_highest_one(self) -> Self
+🔬This is a nightly-only experimental API. (isolate_most_least_significant_one #136909)
+
+Source
+pub const fn isolate_lowest_one(self) -> Self
+🔬This is a nightly-only experimental API. (isolate_most_least_significant_one #136909)
+
+Source
+pub const fn highest_one(self) -> Option<u32>
+🔬This is a nightly-only experimental API. (int_lowest_highest_one #145203)
+
+Source
+pub const fn lowest_one(self) -> Option<u32>
+🔬This is a nightly-only experimental API. (int_lowest_highest_one #145203)
+
+1.87.0 (const: 1.87.0) · Source
 pub const fn cast_unsigned(self) -> u32
-🔬This is a nightly-only experimental API. (integer_sign_cast #125882)
 
 1.0.0 (const: 1.32.0) · Source
 pub const fn rotate_left(self, n: u32) -> Self
@@ -62,9 +77,8 @@ pub const fn to_le(self) -> Self
 1.0.0 (const: 1.47.0) · Source
 pub const fn checked_add(self, rhs: Self) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_add(self, rhs: Self) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.79.0 (const: 1.79.0) · Source
 pub const unsafe fn unchecked_add(self, rhs: Self) -> Self
@@ -72,16 +86,14 @@ pub const unsafe fn unchecked_add(self, rhs: Self) -> Self
 1.66.0 (const: 1.66.0) · Source
 pub const fn checked_add_unsigned(self, rhs: u32) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_add_unsigned(self, rhs: u32) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.0.0 (const: 1.47.0) · Source
 pub const fn checked_sub(self, rhs: Self) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_sub(self, rhs: Self) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.79.0 (const: 1.79.0) · Source
 pub const unsafe fn unchecked_sub(self, rhs: Self) -> Self
@@ -89,16 +101,14 @@ pub const unsafe fn unchecked_sub(self, rhs: Self) -> Self
 1.66.0 (const: 1.66.0) · Source
 pub const fn checked_sub_unsigned(self, rhs: u32) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_sub_unsigned(self, rhs: u32) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.0.0 (const: 1.47.0) · Source
 pub const fn checked_mul(self, rhs: Self) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_mul(self, rhs: Self) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.79.0 (const: 1.79.0) · Source
 pub const unsafe fn unchecked_mul(self, rhs: Self) -> Self
@@ -106,30 +116,38 @@ pub const unsafe fn unchecked_mul(self, rhs: Self) -> Self
 1.0.0 (const: 1.52.0) · Source
 pub const fn checked_div(self, rhs: Self) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_div(self, rhs: Self) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.38.0 (const: 1.52.0) · Source
 pub const fn checked_div_euclid(self, rhs: Self) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_div_euclid(self, rhs: Self) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
+
+Source
+pub const fn checked_exact_div(self, rhs: Self) -> Option<Self>
+🔬This is a nightly-only experimental API. (exact_div #139911)
+
+Source
+pub const fn exact_div(self, rhs: Self) -> Self
+🔬This is a nightly-only experimental API. (exact_div #139911)
+
+Source
+pub const unsafe fn unchecked_exact_div(self, rhs: Self) -> Self
+🔬This is a nightly-only experimental API. (exact_div #139911)
 
 1.7.0 (const: 1.52.0) · Source
 pub const fn checked_rem(self, rhs: Self) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_rem(self, rhs: Self) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.38.0 (const: 1.52.0) · Source
 pub const fn checked_rem_euclid(self, rhs: Self) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_rem_euclid(self, rhs: Self) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.7.0 (const: 1.47.0) · Source
 pub const fn checked_neg(self) -> Option<Self>
@@ -138,53 +156,62 @@ Source
 pub const unsafe fn unchecked_neg(self) -> Self
 🔬This is a nightly-only experimental API. (unchecked_neg #85122)
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_neg(self) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.7.0 (const: 1.47.0) · Source
 pub const fn checked_shl(self, rhs: u32) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_shl(self, rhs: u32) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 Source
 pub const unsafe fn unchecked_shl(self, rhs: u32) -> Self
 🔬This is a nightly-only experimental API. (unchecked_shifts #85122)
 
-Source
+1.87.0 (const: 1.87.0) · Source
 pub const fn unbounded_shl(self, rhs: u32) -> i32
-🔬This is a nightly-only experimental API. (unbounded_shifts #129375)
+
+Source
+pub const fn exact_shl(self, rhs: u32) -> Option<i32>
+🔬This is a nightly-only experimental API. (exact_bitshifts #144336)
+
+Source
+pub const unsafe fn unchecked_exact_shl(self, rhs: u32) -> i32
+🔬This is a nightly-only experimental API. (exact_bitshifts #144336)
 
 1.7.0 (const: 1.47.0) · Source
 pub const fn checked_shr(self, rhs: u32) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_shr(self, rhs: u32) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 Source
 pub const unsafe fn unchecked_shr(self, rhs: u32) -> Self
 🔬This is a nightly-only experimental API. (unchecked_shifts #85122)
 
-Source
+1.87.0 (const: 1.87.0) · Source
 pub const fn unbounded_shr(self, rhs: u32) -> i32
-🔬This is a nightly-only experimental API. (unbounded_shifts #129375)
+
+Source
+pub const fn exact_shr(self, rhs: u32) -> Option<i32>
+🔬This is a nightly-only experimental API. (exact_bitshifts #144336)
+
+Source
+pub const unsafe fn unchecked_exact_shr(self, rhs: u32) -> i32
+🔬This is a nightly-only experimental API. (exact_bitshifts #144336)
 
 1.13.0 (const: 1.47.0) · Source
 pub const fn checked_abs(self) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_abs(self) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.34.0 (const: 1.50.0) · Source
 pub const fn checked_pow(self, exp: u32) -> Option<Self>
 
-Source
+1.91.0 (const: 1.91.0) · Source
 pub const fn strict_pow(self, exp: u32) -> Self
-🔬This is a nightly-only experimental API. (strict_overflow_ops #118260)
 
 1.84.0 (const: 1.84.0) · Source
 pub const fn checked_isqrt(self) -> Option<Self>
@@ -283,6 +310,23 @@ pub const fn overflowing_sub_unsigned(self, rhs: u32) -> (Self, bool)
 
 1.7.0 (const: 1.32.0) · Source
 pub const fn overflowing_mul(self, rhs: Self) -> (Self, bool)
+
+Source
+pub const fn widening_mul(self, rhs: Self) -> (u32, Self)
+🔬This is a nightly-only experimental API. (bigint_helper_methods #85532)
+
+Source
+pub const fn carrying_mul(self, rhs: Self, carry: Self) -> (u32, Self)
+🔬This is a nightly-only experimental API. (bigint_helper_methods #85532)
+
+Source
+pub const fn carrying_mul_add(
+    self,
+    rhs: Self,
+    carry: Self,
+    add: Self,
+) -> (u32, Self)
+🔬This is a nightly-only experimental API. (bigint_helper_methods #85532)
 
 1.7.0 (const: 1.52.0) · Source
 pub const fn overflowing_div(self, rhs: Self) -> (Self, bool)
@@ -398,11 +442,29 @@ pub const fn min_value() -> Self
 pub const fn max_value() -> Self
 👎Deprecating in a future version: replaced by the MAX associated constant on this type
 
-Source
+1.87.0 (const: 1.87.0) · Source
 pub const fn midpoint(self, rhs: i32) -> i32
-🔬This is a nightly-only experimental API. (num_midpoint #110840)
 
 Source
 impl i32
 1.0.0 (const: 1.82.0) · Source
 pub const fn from_str_radix(src: &str, radix: u32) -> Result<i32, ParseIntError>
+
+Source
+pub const fn from_ascii(src: &[u8]) -> Result<i32, ParseIntError>
+🔬This is a nightly-only experimental API. (int_from_ascii #134821)
+
+Source
+pub const fn from_ascii_radix(
+    src: &[u8],
+    radix: u32,
+) -> Result<i32, ParseIntError>
+🔬This is a nightly-only experimental API. (int_from_ascii #134821)
+
+Source
+§
+impl i32
+Source
+pub fn format_into(self, buf: &mut NumBuffer<Self>) -> &str
+🔬This is a nightly-only experimental API. (int_format_into #138215)
+Available on WebAssembly only.

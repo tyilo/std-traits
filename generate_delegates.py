@@ -23,6 +23,8 @@ def parse_specs(filename: str) -> list[FunctionSpec]:
         is_unstable = False
         for l in f:
             l = l.strip()
+            if l.endswith("Source"):
+                print(l)
             if l == "Source":
                 is_unstable = True
                 continue
@@ -134,6 +136,7 @@ TRAITS = {
         std_fns=[],
         ignores=set(),
         replacements={
+            "_unsigned(self) -> u32": "_unsigned(self) -> Self::Unsigned",
             "_unsigned(self, rhs: u32)": "_unsigned(self, rhs: Self::Unsigned)",
             "unsigned_abs(self) -> u32": "unsigned_abs(self) -> Self::Unsigned",
         },
@@ -145,6 +148,8 @@ TRAITS = {
         ignores=set(),
         replacements={
             "_signed(self, rhs: i32)": "_signed(self, rhs: Self::Signed)",
+            "_signed(self) -> i32": "_signed(self) -> Self::Signed",
+            "_signed_diff(self, rhs: Self) -> Option<i32>": "_signed_diff(self, rhs: Self) -> Option<Self::Signed>",
         },
     ),
 }

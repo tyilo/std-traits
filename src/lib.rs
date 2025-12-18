@@ -1,5 +1,6 @@
 #![no_std]
 #![cfg_attr(docsrs, feature(rustdoc_internals))]
+#![deny(unconditional_recursion)]
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
