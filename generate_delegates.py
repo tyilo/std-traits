@@ -16,9 +16,6 @@ class FunctionSpec:
     call: str
 
 
-ARG_TYPE_RE = re.compile(r": [^,)]+")
-
-
 def stringify_type(d: dict[str, Any]) -> str:
     [(typ, inner)] = d.items()
     match typ:
