@@ -338,24 +338,30 @@ pub trait Float:
     fn next_down(self) -> Self;
 
     /// See [`f32::recip`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn recip(self) -> Self;
 
     /// See [`f32::to_degrees`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn to_degrees(self) -> Self;
 
     /// See [`f32::to_radians`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn to_radians(self) -> Self;
 
     /// See [`f32::max`].
+    #[must_use = "this returns the result of the comparison, without modifying either input"]
     fn max(self, other: Self) -> Self;
 
     /// See [`f32::min`].
+    #[must_use = "this returns the result of the comparison, without modifying either input"]
     fn min(self, other: Self) -> Self;
 
     /// See [`f32::midpoint`].
     fn midpoint(self, other: Self) -> Self;
 
     /// See [`f32::to_bits`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn to_bits(self) -> Self::Bits;
 
     /// See [`f32::from_bits`].
@@ -365,109 +371,136 @@ pub trait Float:
     fn total_cmp(&self, other: &Self) -> Ordering;
 
     /// See [`f32::clamp`].
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn clamp(self, min: Self, max: Self) -> Self;
 
     /// See [`f32::copysign`].
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn copysign(self, sign: Self) -> Self;
 
     /// See [`f32::floor`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn floor(self) -> Self;
 
     /// See [`f32::ceil`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn ceil(self) -> Self;
 
     /// See [`f32::round`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn round(self) -> Self;
 
     /// See [`f32::round_ties_even`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn round_ties_even(self) -> Self;
 
     /// See [`f32::trunc`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn trunc(self) -> Self;
 
     /// See [`f32::fract`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn fract(self) -> Self;
 
     /// See [`f32::mul_add`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn mul_add(self, a: Self, b: Self) -> Self;
 
     /// See [`f32::powi`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn powi(self, n: i32) -> Self;
 
     /// See [`f32::powf`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn powf(self, n: Self) -> Self;
 
     /// See [`f32::sqrt`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn sqrt(self) -> Self;
 
     /// See [`f32::exp`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn exp(self) -> Self;
 
     /// See [`f32::exp2`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn exp2(self) -> Self;
 
     /// See [`f32::ln`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn ln(self) -> Self;
 
     /// See [`f32::log`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn log(self, base: Self) -> Self;
 
     /// See [`f32::log2`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn log2(self) -> Self;
 
     /// See [`f32::log10`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn log10(self) -> Self;
 
     /// See [`f32::cbrt`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn cbrt(self) -> Self;
 
     /// See [`f32::hypot`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn hypot(self, other: Self) -> Self;
 
     /// See [`f32::sin`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn sin(self) -> Self;
 
     /// See [`f32::cos`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn cos(self) -> Self;
 
     /// See [`f32::tan`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn tan(self) -> Self;
 
     /// See [`f32::asin`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn asin(self) -> Self;
 
     /// See [`f32::acos`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn acos(self) -> Self;
 
     /// See [`f32::atan`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn atan(self) -> Self;
 
     /// See [`f32::atan2`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn atan2(self, other: Self) -> Self;
 
     /// See [`f32::sin_cos`].
@@ -476,34 +509,42 @@ pub trait Float:
 
     /// See [`f32::exp_m1`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn exp_m1(self) -> Self;
 
     /// See [`f32::ln_1p`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn ln_1p(self) -> Self;
 
     /// See [`f32::sinh`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn sinh(self) -> Self;
 
     /// See [`f32::cosh`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn cosh(self) -> Self;
 
     /// See [`f32::tanh`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn tanh(self) -> Self;
 
     /// See [`f32::asinh`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn asinh(self) -> Self;
 
     /// See [`f32::acosh`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn acosh(self) -> Self;
 
     /// See [`f32::atanh`].
     #[cfg(feature = "std")]
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn atanh(self) -> Self;
 
     // @END@ DECL FLOAT
@@ -622,7 +663,7 @@ macro_rules! impl_float {
             }
 
             fn total_cmp(&self, other: &Self) -> Ordering {
-                Self::total_cmp(&self, other)
+                Self::total_cmp(self, other)
             }
 
             fn clamp(self, min: Self, max: Self) -> Self {
@@ -881,34 +922,47 @@ pub trait Integer:
     // @START@ DECL INTEGER
     // Generated by generate_delegates.py
 
+    /// See [`i32::from_str_radix`].
+    fn from_str_radix(src: &str, radix: u32) -> Result<Self, ParseIntError>;
+
     /// See [`i32::count_ones`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn count_ones(self) -> u32;
 
     /// See [`i32::count_zeros`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn count_zeros(self) -> u32;
 
     /// See [`i32::leading_zeros`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn leading_zeros(self) -> u32;
 
     /// See [`i32::trailing_zeros`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn trailing_zeros(self) -> u32;
 
     /// See [`i32::leading_ones`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn leading_ones(self) -> u32;
 
     /// See [`i32::trailing_ones`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn trailing_ones(self) -> u32;
 
     /// See [`i32::rotate_left`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rotate_left(self, n: u32) -> Self;
 
     /// See [`i32::rotate_right`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rotate_right(self, n: u32) -> Self;
 
     /// See [`i32::swap_bytes`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn swap_bytes(self) -> Self;
 
     /// See [`i32::reverse_bits`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn reverse_bits(self) -> Self;
 
     /// See [`i32::from_be`].
@@ -918,15 +972,19 @@ pub trait Integer:
     fn from_le(x: Self) -> Self;
 
     /// See [`i32::to_be`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn to_be(self) -> Self;
 
     /// See [`i32::to_le`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn to_le(self) -> Self;
 
     /// See [`i32::checked_add`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_add(self, rhs: Self) -> Option<Self>;
 
     /// See [`i32::strict_add`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_add(self, rhs: Self) -> Self;
 
     /// See [`i32::unchecked_add`].
@@ -934,12 +992,15 @@ pub trait Integer:
     /// # Safety
     ///
     /// See [`i32::unchecked_add`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     unsafe fn unchecked_add(self, rhs: Self) -> Self;
 
     /// See [`i32::checked_sub`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_sub(self, rhs: Self) -> Option<Self>;
 
     /// See [`i32::strict_sub`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_sub(self, rhs: Self) -> Self;
 
     /// See [`i32::unchecked_sub`].
@@ -947,12 +1008,15 @@ pub trait Integer:
     /// # Safety
     ///
     /// See [`i32::unchecked_sub`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     unsafe fn unchecked_sub(self, rhs: Self) -> Self;
 
     /// See [`i32::checked_mul`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_mul(self, rhs: Self) -> Option<Self>;
 
     /// See [`i32::strict_mul`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_mul(self, rhs: Self) -> Self;
 
     /// See [`i32::unchecked_mul`].
@@ -960,175 +1024,228 @@ pub trait Integer:
     /// # Safety
     ///
     /// See [`i32::unchecked_mul`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     unsafe fn unchecked_mul(self, rhs: Self) -> Self;
 
     /// See [`i32::checked_div`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_div(self, rhs: Self) -> Option<Self>;
 
     /// See [`i32::strict_div`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_div(self, rhs: Self) -> Self;
 
     /// See [`i32::checked_div_euclid`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_div_euclid(self, rhs: Self) -> Option<Self>;
 
     /// See [`i32::strict_div_euclid`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_div_euclid(self, rhs: Self) -> Self;
 
     /// See [`i32::checked_rem`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_rem(self, rhs: Self) -> Option<Self>;
 
     /// See [`i32::strict_rem`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_rem(self, rhs: Self) -> Self;
 
     /// See [`i32::checked_rem_euclid`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_rem_euclid(self, rhs: Self) -> Option<Self>;
 
     /// See [`i32::strict_rem_euclid`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_rem_euclid(self, rhs: Self) -> Self;
 
     /// See [`i32::checked_neg`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_neg(self) -> Option<Self>;
 
     /// See [`i32::strict_neg`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_neg(self) -> Self;
 
     /// See [`i32::checked_shl`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_shl(self, rhs: u32) -> Option<Self>;
 
     /// See [`i32::strict_shl`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_shl(self, rhs: u32) -> Self;
 
     /// See [`i32::unbounded_shl`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unbounded_shl(self, rhs: u32) -> Self;
 
     /// See [`i32::checked_shr`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_shr(self, rhs: u32) -> Option<Self>;
 
     /// See [`i32::strict_shr`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_shr(self, rhs: u32) -> Self;
 
     /// See [`i32::unbounded_shr`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unbounded_shr(self, rhs: u32) -> Self;
 
     /// See [`i32::checked_pow`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_pow(self, exp: u32) -> Option<Self>;
 
     /// See [`i32::strict_pow`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_pow(self, exp: u32) -> Self;
 
     /// See [`i32::saturating_add`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_add(self, rhs: Self) -> Self;
 
     /// See [`i32::saturating_sub`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_sub(self, rhs: Self) -> Self;
 
     /// See [`i32::saturating_mul`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_mul(self, rhs: Self) -> Self;
 
     /// See [`i32::saturating_div`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_div(self, rhs: Self) -> Self;
 
     /// See [`i32::saturating_pow`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_pow(self, exp: u32) -> Self;
 
     /// See [`i32::wrapping_add`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_add(self, rhs: Self) -> Self;
 
     /// See [`i32::wrapping_sub`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_sub(self, rhs: Self) -> Self;
 
     /// See [`i32::wrapping_mul`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_mul(self, rhs: Self) -> Self;
 
     /// See [`i32::wrapping_div`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_div(self, rhs: Self) -> Self;
 
     /// See [`i32::wrapping_div_euclid`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_div_euclid(self, rhs: Self) -> Self;
 
     /// See [`i32::wrapping_rem`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_rem(self, rhs: Self) -> Self;
 
     /// See [`i32::wrapping_rem_euclid`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_rem_euclid(self, rhs: Self) -> Self;
 
     /// See [`i32::wrapping_neg`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_neg(self) -> Self;
 
     /// See [`i32::wrapping_shl`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_shl(self, rhs: u32) -> Self;
 
     /// See [`i32::wrapping_shr`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_shr(self, rhs: u32) -> Self;
 
     /// See [`i32::wrapping_pow`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_pow(self, exp: u32) -> Self;
 
     /// See [`i32::overflowing_add`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_add(self, rhs: Self) -> (Self, bool);
 
     /// See [`i32::overflowing_sub`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_sub(self, rhs: Self) -> (Self, bool);
 
     /// See [`i32::overflowing_mul`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_mul(self, rhs: Self) -> (Self, bool);
 
     /// See [`i32::overflowing_div`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_div(self, rhs: Self) -> (Self, bool);
 
     /// See [`i32::overflowing_div_euclid`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_div_euclid(self, rhs: Self) -> (Self, bool);
 
     /// See [`i32::overflowing_rem`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_rem(self, rhs: Self) -> (Self, bool);
 
     /// See [`i32::overflowing_rem_euclid`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_rem_euclid(self, rhs: Self) -> (Self, bool);
 
     /// See [`i32::overflowing_neg`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_neg(self) -> (Self, bool);
 
     /// See [`i32::overflowing_shl`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_shl(self, rhs: u32) -> (Self, bool);
 
     /// See [`i32::overflowing_shr`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_shr(self, rhs: u32) -> (Self, bool);
 
     /// See [`i32::overflowing_pow`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_pow(self, exp: u32) -> (Self, bool);
 
     /// See [`i32::pow`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn pow(self, exp: u32) -> Self;
 
     /// See [`i32::isqrt`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn isqrt(self) -> Self;
 
     /// See [`i32::ilog`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn ilog(self, base: Self) -> u32;
 
     /// See [`i32::ilog2`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn ilog2(self) -> u32;
 
     /// See [`i32::ilog10`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn ilog10(self) -> u32;
 
     /// See [`i32::checked_ilog`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_ilog(self, base: Self) -> Option<u32>;
 
     /// See [`i32::checked_ilog2`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_ilog2(self) -> Option<u32>;
 
     /// See [`i32::checked_ilog10`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_ilog10(self) -> Option<u32>;
 
     /// See [`i32::abs_diff`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn abs_diff(self, other: Self) -> Self::Unsigned;
 
     /// See [`i32::midpoint`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn midpoint(self, rhs: Self) -> Self;
-
-    /// See [`i32::from_str_radix`].
-    fn from_str_radix(src: &str, radix: u32) -> Result<Self, ParseIntError>;
 
     // @END@ DECL INTEGER
 }
@@ -1184,6 +1301,10 @@ macro_rules! impl_integer {
 
             // @START@ IMPL INTEGER
             // Generated by generate_delegates.py
+
+            fn from_str_radix(src: &str, radix: u32) -> Result<Self, ParseIntError> {
+                Self::from_str_radix(src, radix)
+            }
 
             fn count_ones(self) -> u32 {
                 Self::count_ones(self)
@@ -1497,10 +1618,6 @@ macro_rules! impl_integer {
                 Self::midpoint(self, rhs)
             }
 
-            fn from_str_radix(src: &str, radix: u32) -> Result<Self, ParseIntError> {
-                Self::from_str_radix(src, radix)
-            }
-
             // @END@ IMPL INTEGER
         }
     };
@@ -1511,60 +1628,78 @@ pub trait Unsigned: Integer<Unsigned = Self> + From<u8> {
     // Generated by generate_delegates.py
 
     /// See [`u32::cast_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn cast_signed(self) -> Self::Signed;
 
     /// See [`u32::checked_add_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_add_signed(self, rhs: Self::Signed) -> Option<Self>;
 
     /// See [`u32::strict_add_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_add_signed(self, rhs: Self::Signed) -> Self;
 
     /// See [`u32::checked_sub_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_sub_signed(self, rhs: Self::Signed) -> Option<Self>;
 
     /// See [`u32::strict_sub_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_sub_signed(self, rhs: Self::Signed) -> Self;
 
     /// See [`u32::checked_signed_diff`].
     fn checked_signed_diff(self, rhs: Self) -> Option<Self::Signed>;
 
     /// See [`u32::saturating_add_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_add_signed(self, rhs: Self::Signed) -> Self;
 
     /// See [`u32::saturating_sub_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_sub_signed(self, rhs: Self::Signed) -> Self;
 
     /// See [`u32::wrapping_add_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_add_signed(self, rhs: Self::Signed) -> Self;
 
     /// See [`u32::wrapping_sub_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_sub_signed(self, rhs: Self::Signed) -> Self;
 
     /// See [`u32::carrying_add`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn carrying_add(self, rhs: Self, carry: bool) -> (Self, bool);
 
     /// See [`u32::overflowing_add_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_add_signed(self, rhs: Self::Signed) -> (Self, bool);
 
     /// See [`u32::borrowing_sub`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn borrowing_sub(self, rhs: Self, borrow: bool) -> (Self, bool);
 
     /// See [`u32::overflowing_sub_signed`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_sub_signed(self, rhs: Self::Signed) -> (Self, bool);
 
     /// See [`u32::carrying_mul`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn carrying_mul(self, rhs: Self, carry: Self) -> (Self, Self);
 
     /// See [`u32::carrying_mul_add`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn carrying_mul_add(self, rhs: Self, carry: Self, add: Self) -> (Self, Self);
 
     /// See [`u32::div_ceil`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn div_ceil(self, rhs: Self) -> Self;
 
     /// See [`u32::next_multiple_of`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn next_multiple_of(self, rhs: Self) -> Self;
 
     /// See [`u32::checked_next_multiple_of`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_next_multiple_of(self, rhs: Self) -> Option<Self>;
 
     /// See [`u32::is_multiple_of`].
@@ -1574,9 +1709,11 @@ pub trait Unsigned: Integer<Unsigned = Self> + From<u8> {
     fn is_power_of_two(self) -> bool;
 
     /// See [`u32::next_power_of_two`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn next_power_of_two(self) -> Self;
 
     /// See [`u32::checked_next_power_of_two`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_next_power_of_two(self) -> Option<Self>;
 
     // @END@ IMPL UNSIGNED
@@ -1704,66 +1841,87 @@ pub trait Signed: Integer<Signed = Self> + Neg + From<i8> {
     // Generated by generate_delegates.py
 
     /// See [`i32::cast_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn cast_unsigned(self) -> Self::Unsigned;
 
     /// See [`i32::checked_add_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_add_unsigned(self, rhs: Self::Unsigned) -> Option<Self>;
 
     /// See [`i32::strict_add_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_add_unsigned(self, rhs: Self::Unsigned) -> Self;
 
     /// See [`i32::checked_sub_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_sub_unsigned(self, rhs: Self::Unsigned) -> Option<Self>;
 
     /// See [`i32::strict_sub_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_sub_unsigned(self, rhs: Self::Unsigned) -> Self;
 
     /// See [`i32::checked_abs`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_abs(self) -> Option<Self>;
 
     /// See [`i32::strict_abs`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn strict_abs(self) -> Self;
 
     /// See [`i32::checked_isqrt`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn checked_isqrt(self) -> Option<Self>;
 
     /// See [`i32::saturating_add_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_add_unsigned(self, rhs: Self::Unsigned) -> Self;
 
     /// See [`i32::saturating_sub_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_sub_unsigned(self, rhs: Self::Unsigned) -> Self;
 
     /// See [`i32::saturating_neg`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_neg(self) -> Self;
 
     /// See [`i32::saturating_abs`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn saturating_abs(self) -> Self;
 
     /// See [`i32::wrapping_add_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_add_unsigned(self, rhs: Self::Unsigned) -> Self;
 
     /// See [`i32::wrapping_sub_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_sub_unsigned(self, rhs: Self::Unsigned) -> Self;
 
     /// See [`i32::wrapping_abs`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn wrapping_abs(self) -> Self;
 
     /// See [`i32::unsigned_abs`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn unsigned_abs(self) -> Self::Unsigned;
 
     /// See [`i32::overflowing_add_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_add_unsigned(self, rhs: Self::Unsigned) -> (Self, bool);
 
     /// See [`i32::overflowing_sub_unsigned`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_sub_unsigned(self, rhs: Self::Unsigned) -> (Self, bool);
 
     /// See [`i32::overflowing_abs`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn overflowing_abs(self) -> (Self, bool);
 
     /// See [`i32::abs`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn abs(self) -> Self;
 
     /// See [`i32::signum`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn signum(self) -> Self;
 
     /// See [`i32::is_positive`].

@@ -2,12 +2,14 @@ import re
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
-from typing import IO
+from typing import IO, Any
 from tempfile import NamedTemporaryFile
+import json
 
 
 @dataclass
 class FunctionSpec:
+    must_use_reason: str | None
     unsafe: bool
     name: str
     definition: str
@@ -17,44 +19,152 @@ class FunctionSpec:
 ARG_TYPE_RE = re.compile(r": [^,)]+")
 
 
-def parse_specs(filename: str) -> list[FunctionSpec]:
-    res = []
-    with open(filename) as f:
-        is_unstable = False
-        for l in f:
-            l = l.strip()
-            if l.endswith("Source"):
-                print(l)
-            if l == "Source":
-                is_unstable = True
-                continue
-            if l.startswith("impl"):
-                is_unstable = False
-                continue
-            if not l.startswith("pub "):
-                continue
-            if " fn " not in l:
-                continue
-
-            if is_unstable:
-                is_unstable = False
-                continue
-
-            l = l.removeprefix("pub ")
-            l = l.removeprefix("const ")
-            unsafe = "unsafe fn " in l
-            call = l.split(" -> ")[0].removeprefix("unsafe ").removeprefix("fn ")
-            call = ARG_TYPE_RE.sub("", call)
-            name = call.split("(")[0]
-
-            res.append(
-                FunctionSpec(
-                    unsafe=unsafe,
-                    name=name,
-                    definition=l,
-                    call=call,
+def stringify_type(d: dict[str, Any]) -> str:
+    [(typ, inner)] = d.items()
+    match typ:
+        case "primitive":
+            return inner
+        case "generic":
+            return inner
+        case "slice":
+            return f"[{stringify_type(inner)}]"
+        case "array":
+            return f"[{stringify_type(inner['type'])}; {inner['len']}]"
+        case "borrowed_ref":
+            assert inner["lifetime"] is None
+            s = "&"
+            if inner["is_mutable"]:
+                s += "mut "
+            return s + stringify_type(inner["type"])
+        case "tuple":
+            return f"({', '.join(stringify_type(v) for v in inner)})"
+        case "resolved_path":
+            s = inner["path"]
+            if s == "crate::cmp::Ordering":
+                return "Ordering"
+            args = inner["args"]
+            if args:
+                [(arg_typ, arg_inner)] = args.items()
+                assert not arg_inner["constraints"]
+                assert arg_typ == "angle_bracketed"
+                s += (
+                    "<"
+                    + ", ".join(stringify_generic(t) for t in arg_inner["args"])
+                    + ">"
                 )
-            )
+
+            return s
+        case _:
+            assert False, (typ, inner)
+
+
+def stringify_generic(d: dict[str, Any]) -> str:
+    [(typ, inner)] = d.items()
+    match typ:
+        case "type":
+            return stringify_type(inner)
+        case _:
+            assert False, (typ, inner)
+
+
+def stringify_arg(name: str, typ_s: str) -> str:
+    if name == "self":
+        match typ_s:
+            case "Self":
+                return "self"
+            case "&Self":
+                return "&self"
+            case _:
+                assert False, typ_s
+    return f"{name}: {typ_s}"
+
+
+def parse_fn(d: dict[str, Any]) -> FunctionSpec | None:
+    inner = d["inner"]
+    [(typ, spec)] = inner.items()
+    if typ != "function":
+        return None
+
+    generics = spec["generics"]
+    if generics["params"] or generics["where_predicates"]:
+        return None
+
+    if d["deprecation"] is not None:
+        return None
+
+    must_use_reason = None
+    for attr in d["attrs"]:
+        [(typ, inner)] = attr.items()
+        match typ:
+            case "must_use":
+                [(reason_key, reason)] = inner.items()
+                assert reason_key == "reason"
+                assert must_use_reason is None
+                must_use_reason = reason
+            case "other":
+                if inner.startswith("#[attr = Stability"):
+                    if "Unstable" in inner or "since: Current" in inner:
+                        return None
+            case _:
+                assert False, (typ, inner)
+
+    name = d["name"]
+    header = spec["header"]
+    is_unsafe = header["is_unsafe"]
+
+    sig = spec["sig"]
+
+    args = []
+    arg_names = []
+    for arg_name, typ in sig["inputs"]:
+        typ_s = stringify_type(typ)
+        arg_names.append(arg_name)
+        args.append(stringify_arg(arg_name, typ_s))
+
+    definition = ""
+    if is_unsafe:
+        definition += "unsafe "
+
+    definition += f"fn {name}("
+    definition += ", ".join(args)
+    definition += ")"
+    definition += f" -> {stringify_type(sig['output'])}"
+
+    call = f"{name}({", ".join(arg_names)})"
+
+    return FunctionSpec(
+        must_use_reason=must_use_reason,
+        unsafe=is_unsafe,
+        name=name,
+        definition=definition,
+        call=call,
+    )
+
+
+def parse_specs(crate: str, typ: str) -> list[FunctionSpec]:
+    print(f"Processing {crate}::{typ}")
+
+    path = (
+        Path.home()
+        / f".rustup/toolchains/nightly-x86_64-unknown-linux-gnu/share/doc/rust/json/{crate}.json"
+    )
+    with path.open("rb") as f:
+        data = json.load(f)
+
+    res = []
+    for d in data["index"].values():
+        impl = d["inner"].get("impl", {})
+
+        if impl.get("for", {}).get("primitive") != typ:
+            continue
+
+        if impl["trait"] is not None:
+            continue
+
+        for item_id in impl["items"]:
+            item_d = data["index"][str(item_id)]
+            if fn := parse_fn(item_d):
+                res.append(fn)
 
     return res
 
@@ -68,8 +178,8 @@ class Trait:
     replacements: dict[str, str]
 
 
-i32_core = parse_specs("spec/i32_core.txt")
-u32_core = parse_specs("spec/u32_core.txt")
+i32_core = parse_specs("core", "i32")
+u32_core = parse_specs("core", "u32")
 
 i32_fns = {s.name for s in i32_core}
 u32_fns = {s.name for s in u32_core}
@@ -82,8 +192,8 @@ unsigned_core = [s for s in u32_core if s.name not in i32_fns]
 TRAITS = {
     "FLOAT": Trait(
         example_implementor="f32",
-        core_fns=parse_specs("spec/f32_core.txt"),
-        std_fns=parse_specs("spec/f32_std.txt"),
+        core_fns=parse_specs("core", "f32"),
+        std_fns=parse_specs("std", "f32"),
         ignores={
             # Implemented on Number trait
             "to_be_bytes",
@@ -96,10 +206,6 @@ TRAITS = {
             "signum",
             "div_euclid",
             "rem_euclid",
-            # Has unstable trait bound
-            "to_int_unchecked<Int>",
-            # Deprecated
-            "abs_sub",
         },
         replacements={
             "u32": "Self::Bits",
@@ -122,9 +228,6 @@ TRAITS = {
             "signum",
             "div_euclid",
             "rem_euclid",
-            # Deprecated
-            "min_value",
-            "max_value",
         },
         replacements={
             "abs_diff(self, other: Self) -> u32": "abs_diff(self, other: Self) -> Self::Unsigned",
@@ -177,15 +280,6 @@ def print_decl(dst: IO[str], indent: str, trait: Trait, impl: bool) -> None:
                 definition = definition.replace(k, v)
                 call = call.replace(k, v)
 
-            ref = f"[`{trait.example_implementor}::{fn.name}`]"
-            docs = f"{indent}/// See {ref}.\n"
-            if fn.unsafe:
-                docs += f"""{indent}///
-{indent}/// # Safety
-{indent}///
-{indent}/// See {ref}.
-"""
-
             if impl:
                 print(
                     f"""{cfg}{indent}{definition} {{
@@ -195,8 +289,20 @@ def print_decl(dst: IO[str], indent: str, trait: Trait, impl: bool) -> None:
                     file=dst,
                 )
             else:
+                ref = f"[`{trait.example_implementor}::{fn.name}`]"
+                docs = f"{indent}/// See {ref}.\n"
+                if fn.unsafe:
+                    docs += f"""{indent}///
+{indent}/// # Safety
+{indent}///
+{indent}/// See {ref}.
+"""
+                must_use = ""
+                if fn.must_use_reason is not None:
+                    must_use = f'{indent}#[must_use = "{fn.must_use_reason}"]\n'
+
                 print(
-                    f"""{docs}{cfg}{indent}{definition};
+                    f"""{docs}{cfg}{must_use}{indent}{definition};
 """,
                     file=dst,
                 )
