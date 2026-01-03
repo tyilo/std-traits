@@ -1,0 +1,10 @@
+[package]
+name = "std-traits-gen"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+exhaustive-map = "0.3.0"
+rustdoc-types = "0.57.0"
+serde_json = "1.0.147"
