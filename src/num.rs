@@ -71,6 +71,20 @@ pub trait NumberLike:
     fn try_from_be_bytes(bytes: Self::ByteArray) -> Option<Self>;
     fn try_from_le_bytes(bytes: Self::ByteArray) -> Option<Self>;
     fn try_from_ne_bytes(bytes: Self::ByteArray) -> Option<Self>;
+
+    fn cast_i8(self) -> i8;
+    fn cast_i16(self) -> i16;
+    fn cast_i32(self) -> i32;
+    fn cast_i64(self) -> i64;
+    fn cast_i128(self) -> i128;
+    fn cast_isize(self) -> isize;
+
+    fn cast_u8(self) -> u8;
+    fn cast_u16(self) -> u16;
+    fn cast_u32(self) -> u32;
+    fn cast_u64(self) -> u64;
+    fn cast_u128(self) -> u128;
+    fn cast_usize(self) -> usize;
 }
 
 macro_rules! impl_number_like {
@@ -134,6 +148,43 @@ macro_rules! impl_number_like {
 
             fn try_from_ne_bytes(bytes: Self::ByteArray) -> Option<Self> {
                 Self::try_from_underlying(Self::Underlying::from_ne_bytes(bytes))
+            }
+
+            fn cast_i8(self) -> i8 {
+                self as _
+            }
+            fn cast_i16(self) -> i16 {
+                self as _
+            }
+            fn cast_i32(self) -> i32 {
+                self as _
+            }
+            fn cast_i64(self) -> i64 {
+                self as _
+            }
+            fn cast_i128(self) -> i128 {
+                self as _
+            }
+            fn cast_isize(self) -> isize {
+                self as _
+            }
+            fn cast_u8(self) -> u8 {
+                self as _
+            }
+            fn cast_u16(self) -> u16 {
+                self as _
+            }
+            fn cast_u32(self) -> u32 {
+                self as _
+            }
+            fn cast_u64(self) -> u64 {
+                self as _
+            }
+            fn cast_u128(self) -> u128 {
+                self as _
+            }
+            fn cast_usize(self) -> usize {
+                self as _
             }
         }
     };
@@ -199,6 +250,9 @@ pub trait Number:
     fn from_le_bytes(bytes: Self::ByteArray) -> Self;
     fn from_ne_bytes(bytes: Self::ByteArray) -> Self;
 
+    fn cast_f32(self) -> f32;
+    fn cast_f64(self) -> f64;
+
     /// See [`i32::abs`].
     fn abs(self) -> Self;
 
@@ -252,6 +306,14 @@ macro_rules! impl_number {
 
             fn from_ne_bytes(bytes: Self::ByteArray) -> Self {
                 Self::from_ne_bytes(bytes)
+            }
+
+            fn cast_f32(self) -> f32 {
+                self as _
+            }
+
+            fn cast_f64(self) -> f64 {
+                self as _
             }
 
             fn abs(self) -> Self {
