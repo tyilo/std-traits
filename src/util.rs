@@ -1,4 +1,4 @@
-use core::mem::{transmute_copy, ManuallyDrop};
+use core::mem::{ManuallyDrop, transmute_copy};
 
 pub(crate) unsafe fn transmute_unchecked<Src, Dst>(v: Src) -> Dst {
     unsafe { transmute_copy::<ManuallyDrop<Src>, Dst>(&ManuallyDrop::new(v)) }

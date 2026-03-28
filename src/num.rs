@@ -32,7 +32,7 @@ use core::{
 use crate::{
     array::Array,
     primitive::Primitive,
-    ptr::{cast_ptr, Pointer},
+    ptr::{Pointer, cast_ptr},
     util::{cast_generic, cast_int},
 };
 
@@ -1422,7 +1422,7 @@ macro_rules! impl_integer {
             }
 
             unsafe fn unchecked_add(self, rhs: Self) -> Self {
-                Self::unchecked_add(self, rhs)
+                unsafe { Self::unchecked_add(self, rhs) }
             }
 
             fn checked_sub(self, rhs: Self) -> Option<Self> {
@@ -1434,7 +1434,7 @@ macro_rules! impl_integer {
             }
 
             unsafe fn unchecked_sub(self, rhs: Self) -> Self {
-                Self::unchecked_sub(self, rhs)
+                unsafe { Self::unchecked_sub(self, rhs) }
             }
 
             fn checked_mul(self, rhs: Self) -> Option<Self> {
@@ -1446,7 +1446,7 @@ macro_rules! impl_integer {
             }
 
             unsafe fn unchecked_mul(self, rhs: Self) -> Self {
-                Self::unchecked_mul(self, rhs)
+                unsafe { Self::unchecked_mul(self, rhs) }
             }
 
             fn checked_div(self, rhs: Self) -> Option<Self> {
@@ -1498,7 +1498,7 @@ macro_rules! impl_integer {
             }
 
             unsafe fn unchecked_shl(self, rhs: u32) -> Self {
-                Self::unchecked_shl(self, rhs)
+                unsafe { Self::unchecked_shl(self, rhs) }
             }
 
             fn unbounded_shl(self, rhs: u32) -> Self {
@@ -1514,7 +1514,7 @@ macro_rules! impl_integer {
             }
 
             unsafe fn unchecked_shr(self, rhs: u32) -> Self {
-                Self::unchecked_shr(self, rhs)
+                unsafe { Self::unchecked_shr(self, rhs) }
             }
 
             fn unbounded_shr(self, rhs: u32) -> Self {
@@ -2032,7 +2032,7 @@ macro_rules! impl_signed {
             }
 
             unsafe fn unchecked_neg(self) -> Self {
-                Self::unchecked_neg(self)
+                unsafe { Self::unchecked_neg(self) }
             }
 
             fn checked_abs(self) -> Option<Self> {

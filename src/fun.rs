@@ -1,7 +1,7 @@
 use crate::{
     num::Integer,
     primitive::Primitive,
-    ptr::{cast_ptr, Pointer},
+    ptr::{Pointer, cast_ptr},
     tuple::Tuple,
     util::cast_int,
 };

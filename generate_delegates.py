@@ -284,9 +284,12 @@ def print_decl(dst: IO[str], indent: str, trait: Trait, impl: bool) -> None:
                 call = call.replace(k, v)
 
             if impl:
+                call = f"Self::{call}"
+                if fn.unsafe:
+                    call = f"unsafe {{ {call} }}"
                 print(
                     f"""{cfg}{indent}{definition} {{
-{indent}    Self::{call}
+{indent}    {call}
 {indent}}}
 """,
                     file=dst,
