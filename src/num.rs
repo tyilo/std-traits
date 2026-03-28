@@ -29,7 +29,12 @@ use core::{
     str::FromStr,
 };
 
-use crate::{array::Array, primitive::Primitive};
+use crate::{
+    array::Array,
+    primitive::Primitive,
+    ptr::{cast_ptr, Pointer},
+    util::{cast_generic, cast_int},
+};
 
 pub trait NumberLike:
     Primitive
@@ -72,19 +77,7 @@ pub trait NumberLike:
     fn try_from_le_bytes(bytes: Self::ByteArray) -> Option<Self>;
     fn try_from_ne_bytes(bytes: Self::ByteArray) -> Option<Self>;
 
-    fn cast_i8(self) -> i8;
-    fn cast_i16(self) -> i16;
-    fn cast_i32(self) -> i32;
-    fn cast_i64(self) -> i64;
-    fn cast_i128(self) -> i128;
-    fn cast_isize(self) -> isize;
-
-    fn cast_u8(self) -> u8;
-    fn cast_u16(self) -> u16;
-    fn cast_u32(self) -> u32;
-    fn cast_u64(self) -> u64;
-    fn cast_u128(self) -> u128;
-    fn cast_usize(self) -> usize;
+    fn cast_int<T: Integer>(self) -> T;
 }
 
 macro_rules! impl_number_like {
@@ -150,41 +143,8 @@ macro_rules! impl_number_like {
                 Self::try_from_underlying(Self::Underlying::from_ne_bytes(bytes))
             }
 
-            fn cast_i8(self) -> i8 {
-                self as _
-            }
-            fn cast_i16(self) -> i16 {
-                self as _
-            }
-            fn cast_i32(self) -> i32 {
-                self as _
-            }
-            fn cast_i64(self) -> i64 {
-                self as _
-            }
-            fn cast_i128(self) -> i128 {
-                self as _
-            }
-            fn cast_isize(self) -> isize {
-                self as _
-            }
-            fn cast_u8(self) -> u8 {
-                self as _
-            }
-            fn cast_u16(self) -> u16 {
-                self as _
-            }
-            fn cast_u32(self) -> u32 {
-                self as _
-            }
-            fn cast_u64(self) -> u64 {
-                self as _
-            }
-            fn cast_u128(self) -> u128 {
-                self as _
-            }
-            fn cast_usize(self) -> usize {
-                self as _
+            fn cast_int<T: Integer>(self) -> T {
+                cast_int!(self => T)
             }
         }
     };
@@ -250,8 +210,8 @@ pub trait Number:
     fn from_le_bytes(bytes: Self::ByteArray) -> Self;
     fn from_ne_bytes(bytes: Self::ByteArray) -> Self;
 
-    fn cast_f32(self) -> f32;
-    fn cast_f64(self) -> f64;
+    fn cast_float<T: Float>(self) -> T;
+    fn cast_number<T: Number>(self) -> T;
 
     /// See [`i32::abs`].
     fn abs(self) -> Self;
@@ -308,12 +268,16 @@ macro_rules! impl_number {
                 Self::from_ne_bytes(bytes)
             }
 
-            fn cast_f32(self) -> f32 {
-                self as _
+            fn cast_float<T: Float>(self) -> T {
+                cast_generic!(self => T; f32 f64)
             }
 
-            fn cast_f64(self) -> f64 {
-                self as _
+            fn cast_number<T: Number>(self) -> T {
+                cast_generic!(self => T;
+                    i8 i16 i32 i64 i128 isize
+                    u8 u16 u32 u64 u128 usize
+                    f32 f64
+                )
             }
 
             fn abs(self) -> Self {
@@ -980,6 +944,8 @@ pub trait Integer:
     fn to_unsigned(self) -> Self::Unsigned;
     fn to_signed(self) -> Self::Signed;
 
+    fn cast_ptr<T: Sized, P: Pointer<T>>(self) -> P;
+
     /// See [`i32::div_euclid`].
     #[cfg(not(feature = "std"))]
     fn div_euclid(self, rhs: Self) -> Self;
@@ -1372,6 +1338,10 @@ macro_rules! impl_integer {
                 #[allow(clippy::useless_transmute)]
                 #[allow(unnecessary_transmutes)]
                 unsafe { transmute::<Self, Self::Signed>(self) }
+            }
+
+            fn cast_ptr<T: Sized, P: Pointer<T>>(self) -> P {
+                cast_ptr!(T, P, self)
             }
 
             #[cfg(not(feature = "std"))]
@@ -2348,5 +2318,18 @@ mod test {
         }
 
         integer_ops::<u8>();
+    }
+
+    #[test]
+    fn casts() {
+        assert_eq!(0u8.cast_int::<i8>(), 0i8);
+        assert_eq!(0u8.cast_number::<i8>(), 0i8);
+        assert_eq!(0u8.cast_float::<f32>(), 0f32);
+        assert_eq!(0u8.cast_number::<f32>(), 0f32);
+
+        assert_eq!(0f32.cast_int::<u8>(), 0u8);
+        assert_eq!(0f32.cast_number::<u8>(), 0u8);
+        assert_eq!(0f32.cast_float::<f64>(), 0f64);
+        assert_eq!(0f32.cast_number::<f64>(), 0f64);
     }
 }

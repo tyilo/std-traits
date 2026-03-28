@@ -16,3 +16,4 @@ pub mod ptr;
 pub mod reference;
 pub mod slice;
 pub mod tuple;
+mod util;

@@ -1,10 +1,20 @@
-use crate::{primitive::Primitive, tuple::Tuple};
+use crate::{
+    num::Integer,
+    primitive::Primitive,
+    ptr::{cast_ptr, Pointer},
+    tuple::Tuple,
+    util::cast_int,
+};
 
 pub trait FunctionPointer: Primitive + Copy + Sized {
     type Args: Tuple;
     type Return;
 
     fn call(self, args: Self::Args) -> Self::Return;
+
+    fn cast_ptr<T: Sized, P: Pointer<T>>(self) -> P;
+
+    fn cast_int<T: Integer>(self) -> T;
 }
 
 impl<R> Primitive for fn() -> R {}
@@ -14,6 +24,14 @@ impl<R> FunctionPointer for fn() -> R {
 
     fn call(self, _args: Self::Args) -> Self::Return {
         self()
+    }
+
+    fn cast_ptr<T: Sized, P: Pointer<T>>(self) -> P {
+        cast_ptr!(T, P, self)
+    }
+
+    fn cast_int<T: Integer>(self) -> T {
+        cast_int!(self => T)
     }
 }
 
@@ -36,6 +54,14 @@ impl<A1, R> FunctionPointer for fn(A1) -> R {
     fn call(self, args: Self::Args) -> Self::Return {
         self(args.0)
     }
+
+    fn cast_ptr<T: Sized, P: Pointer<T>>(self) -> P {
+        cast_ptr!(T, P, self)
+    }
+
+    fn cast_int<T: Integer>(self) -> T {
+        cast_int!(self => T)
+    }
 }
 
 macro_rules! impl_fn {
@@ -49,6 +75,14 @@ macro_rules! impl_fn {
 
             fn call(self, args: Self::Args) -> Self::Return {
                 self($(args.$n),*)
+            }
+
+            fn cast_ptr<T: Sized, P: Pointer<T>>(self) -> P {
+                cast_ptr!(T, P, self)
+            }
+
+            fn cast_int<T: Integer>(self) -> T {
+                cast_int!(self => T)
             }
         }
     }

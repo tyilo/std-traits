@@ -1,18 +1,34 @@
 use crate::primitive::Primitive;
 
-pub trait Reference: Primitive + Sized {
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub enum Mutability {
+    Const,
+    Mut,
+}
+
+pub trait Reference<T: ?Sized>: Primitive + Sized {
+    fn ref_type() -> Mutability;
+
     fn as_ref(&self) -> &Self;
 }
 
-impl<T: ?Sized> Primitive for &T {}
-impl<T: ?Sized> Reference for &T {
-    fn as_ref(&self) -> &Self {
-        self
-    }
+macro_rules! impl_reference {
+    ($ref:tt, $ty:expr) => {
+        #[allow(unused_parens)]
+        impl<T: ?Sized> Primitive for $ref {}
+
+        #[allow(unused_parens)]
+        impl<T: ?Sized> Reference<T> for $ref {
+            fn ref_type() -> Mutability {
+                $ty
+            }
+
+            fn as_ref(&self) -> &Self {
+                self
+            }
+        }
+    };
 }
-impl<T: ?Sized> Primitive for &mut T {}
-impl<T: ?Sized> Reference for &mut T {
-    fn as_ref(&self) -> &Self {
-        self
-    }
-}
+
+impl_reference!((&T), Mutability::Const);
+impl_reference!((&mut T), Mutability::Mut);
