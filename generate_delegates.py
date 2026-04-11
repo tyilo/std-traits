@@ -9,7 +9,7 @@ import json
 
 @dataclass
 class FunctionSpec:
-    must_use_reason: str | None
+    must_use: bool | str | None
     unsafe: bool
     name: str
     definition: str
@@ -87,15 +87,20 @@ def parse_fn(d: dict[str, Any]) -> FunctionSpec | None:
     if d["deprecation"] is not None:
         return None
 
-    must_use_reason = None
+    must_use = None
     for attr in d["attrs"]:
         [(typ, inner)] = attr.items()
         match typ:
             case "must_use":
                 [(reason_key, reason)] = inner.items()
                 assert reason_key == "reason"
-                assert must_use_reason is None
-                must_use_reason = reason
+                assert must_use is None
+                if reason is None:
+                    must_use = True
+                elif isinstance(reason, str):
+                    must_use = reason
+                else:
+                    assert False, (typ, inner)
             case "other":
                 if inner.startswith("#[attr = Stability"):
                     if "Unstable" in inner or "since: Current" in inner:
@@ -128,7 +133,7 @@ def parse_fn(d: dict[str, Any]) -> FunctionSpec | None:
     call = f"{name}({", ".join(arg_names)})"
 
     return FunctionSpec(
-        must_use_reason=must_use_reason,
+        must_use=must_use,
         unsafe=is_unsafe,
         name=name,
         definition=definition,
@@ -304,9 +309,10 @@ def print_decl(dst: IO[str], indent: str, trait: Trait, impl: bool) -> None:
 {indent}/// See {ref}.
 """
                 must_use = ""
-                if fn.must_use_reason is not None:
-                    must_use = f'{indent}#[must_use = "{fn.must_use_reason}"]\n'
-
+                if fn.must_use is True:
+                    must_use = f'{indent}#[must_use]\n'
+                elif isinstance(fn.must_use, str):
+                    must_use = f'{indent}#[must_use = "{fn.must_use}"]\n'
                 print(
                     f"""{docs}{cfg}{must_use}{indent}{definition};
 """,
