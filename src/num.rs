@@ -361,6 +361,7 @@ pub trait Float:
     fn is_normal(self) -> bool;
 
     /// See [`f32::classify`].
+    #[must_use]
     fn classify(self) -> FpCategory;
 
     /// See [`f32::is_sign_positive`].
@@ -372,9 +373,11 @@ pub trait Float:
     fn is_sign_negative(self) -> bool;
 
     /// See [`f32::next_up`].
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn next_up(self) -> Self;
 
     /// See [`f32::next_down`].
+    #[must_use = "method returns a new number and does not mutate the original value"]
     fn next_down(self) -> Self;
 
     /// See [`f32::recip`].
@@ -398,6 +401,7 @@ pub trait Float:
     fn min(self, other: Self) -> Self;
 
     /// See [`f32::midpoint`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn midpoint(self, other: Self) -> Self;
 
     /// See [`f32::to_bits`].
@@ -547,6 +551,7 @@ pub trait Float:
 
     /// See [`f32::sin_cos`].
     #[cfg(feature = "std")]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn sin_cos(self) -> (Self, Self);
 
     /// See [`f32::exp_m1`].
