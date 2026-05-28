@@ -18,12 +18,15 @@ macro_rules! cast_ptr {
 pub(crate) use cast_ptr;
 
 pub trait Pointer<T: ?Sized>: Primitive + Copy + Debug + Sized {
+    #[must_use]
     fn ptr_type() -> Mutability;
 
+    #[must_use]
     fn cast_ptr<U: Sized, P: Pointer<U>>(self) -> P
     where
         Self: Sized;
 
+    #[must_use]
     fn cast_int<I: Integer>(self) -> I
     where
         T: Sized;

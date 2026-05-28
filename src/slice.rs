@@ -3,6 +3,7 @@ use crate::primitive::Primitive;
 pub trait Slice: Primitive + AsRef<[Self::Item]> {
     type Item;
 
+    #[must_use]
     fn as_slice(&self) -> &[Self::Item];
 }
 

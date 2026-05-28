@@ -55,12 +55,17 @@ array_trait!(
     +) {
         const N: usize;
 
+        #[must_use]
         fn as_slice(&self) -> &[Self::Item];
+        #[must_use]
         fn as_mut_slice(&mut self) -> &mut [Self::Item];
+        #[must_use]
         fn map<F, U>(self, f: F) -> impl Array<Item = U>
         where
             F: FnMut(Self::Item) -> U;
+        #[must_use]
         fn each_ref(&self) -> impl Array<Item = &Self::Item>;
+        #[must_use]
         fn each_mut(&mut self) -> impl Array<Item = &mut Self::Item>;
     }
 );

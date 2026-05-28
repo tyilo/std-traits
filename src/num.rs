@@ -65,18 +65,29 @@ pub trait NumberLike:
     type Underlying: Number;
     type ByteArray: Array<Item = u8>;
 
+    #[must_use]
     fn to_underlying(self) -> Self::Underlying;
+    #[must_use]
     fn try_from_underlying(underlying: Self::Underlying) -> Option<Self>;
+    #[must_use]
     fn to_bytes(self) -> Self::ByteArray;
+    #[must_use]
     fn try_from_bytes(bytes: Self::ByteArray) -> Option<Self>;
 
+    #[must_use]
     fn to_be_bytes(self) -> Self::ByteArray;
+    #[must_use]
     fn to_le_bytes(self) -> Self::ByteArray;
+    #[must_use]
     fn to_ne_bytes(self) -> Self::ByteArray;
+    #[must_use]
     fn try_from_be_bytes(bytes: Self::ByteArray) -> Option<Self>;
+    #[must_use]
     fn try_from_le_bytes(bytes: Self::ByteArray) -> Option<Self>;
+    #[must_use]
     fn try_from_ne_bytes(bytes: Self::ByteArray) -> Option<Self>;
 
+    #[must_use]
     fn cast_int<T: Integer>(self) -> T;
 }
 
@@ -203,26 +214,37 @@ pub trait Number:
     const ONE: Self;
     const TWO: Self;
 
+    #[must_use]
     fn from_bytes(bytes: Self::ByteArray) -> Self;
+    #[must_use]
     fn as_mut_bytes(&mut self) -> &mut Self::ByteArray;
 
+    #[must_use]
     fn from_be_bytes(bytes: Self::ByteArray) -> Self;
+    #[must_use]
     fn from_le_bytes(bytes: Self::ByteArray) -> Self;
+    #[must_use]
     fn from_ne_bytes(bytes: Self::ByteArray) -> Self;
 
+    #[must_use]
     fn cast_float<T: Float>(self) -> T;
+    #[must_use]
     fn cast_number<T: Number>(self) -> T;
 
     /// See [`i32::abs`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn abs(self) -> Self;
 
     /// See [`i32::signum`].
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn signum(self) -> Self;
 
     #[cfg(feature = "std")]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn div_euclid(self, rhs: Self) -> Self;
 
     #[cfg(feature = "std")]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rem_euclid(self, rhs: Self) -> Self;
 }
 
@@ -953,19 +975,26 @@ pub trait Integer:
     type Unsigned: Unsigned;
     type Signed: Signed;
 
+    #[must_use]
     fn from_unsigned(v: Self::Unsigned) -> Self;
+    #[must_use]
     fn from_signed(v: Self::Signed) -> Self;
+    #[must_use]
     fn to_unsigned(self) -> Self::Unsigned;
+    #[must_use]
     fn to_signed(self) -> Self::Signed;
 
+    #[must_use]
     fn cast_ptr<T: Sized, P: Pointer<T>>(self) -> P;
 
     /// See [`i32::div_euclid`].
     #[cfg(not(feature = "std"))]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn div_euclid(self, rhs: Self) -> Self;
 
     /// See [`i32::rem_euclid`].
     #[cfg(not(feature = "std"))]
+    #[must_use = "this returns the result of the operation, without modifying the original"]
     fn rem_euclid(self, rhs: Self) -> Self;
 
     // @START@ DECL INTEGER

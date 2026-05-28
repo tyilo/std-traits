@@ -7,9 +7,11 @@ pub trait Tuple: Primitive {
 pub trait HomogeneousTuple<Item>: Tuple {
     type Array: Array<Item = Item>;
 
+    #[must_use]
     fn into_array(self) -> Self::Array
     where
         Self: Sized;
+    #[must_use]
     fn from_array(array: Self::Array) -> Self;
 }
 

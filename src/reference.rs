@@ -7,8 +7,10 @@ pub enum Mutability {
 }
 
 pub trait Reference<T: ?Sized>: Primitive + Sized {
+    #[must_use]
     fn ref_type() -> Mutability;
 
+    #[must_use]
     fn as_ref(&self) -> &Self;
 }
 

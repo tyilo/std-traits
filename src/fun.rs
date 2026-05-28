@@ -12,8 +12,10 @@ pub trait FunctionPointer: Primitive + Copy + Sized {
 
     fn call(self, args: Self::Args) -> Self::Return;
 
+    #[must_use]
     fn cast_ptr<T: Sized, P: Pointer<T>>(self) -> P;
 
+    #[must_use]
     fn cast_int<T: Integer>(self) -> T;
 }
 
