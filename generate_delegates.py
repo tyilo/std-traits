@@ -87,6 +87,10 @@ def parse_fn(d: dict[str, Any]) -> FunctionSpec | None:
     if d["deprecation"] is not None:
         return None
 
+    stability = d["stability"]
+    if stability is None or stability["level"] == "unstable":
+        return None
+
     must_use = None
     for attr in d["attrs"]:
         [(typ, inner)] = attr.items()
@@ -102,9 +106,7 @@ def parse_fn(d: dict[str, Any]) -> FunctionSpec | None:
                 else:
                     assert False, (typ, inner)
             case "other":
-                if inner.startswith("#[attr = Stability"):
-                    if "Unstable" in inner or "since: Current" in inner:
-                        return None
+                pass
             case _:
                 assert False, (typ, inner)
 
@@ -153,7 +155,10 @@ def parse_specs(crate: str, typ: str) -> list[FunctionSpec]:
 
     res = []
     for d in data["index"].values():
-        impl = d["inner"].get("impl", {})
+        inner = d["inner"]
+        if isinstance(inner, str):
+            continue
+        impl = inner.get("impl", {})
 
         if impl.get("for", {}).get("primitive") != typ:
             continue
@@ -228,6 +233,9 @@ TRAITS = {
             "signum",
             "div_euclid",
             "rem_euclid",
+
+            # NumBufferTrait is not stabilized
+            "format_into",
         },
         replacements={
             "abs_diff(self, other: Self) -> u32": "abs_diff(self, other: Self) -> Self::Unsigned",
@@ -250,6 +258,7 @@ TRAITS = {
         std_fns=[],
         ignores=set(),
         replacements={
+            "bit_width(self) -> Self": "bit_width(self) -> u32",
             "_signed(self, rhs: i32)": "_signed(self, rhs: Self::Signed)",
             "_signed(self) -> i32": "_signed(self) -> Self::Signed",
             "_signed_diff(self, rhs: Self) -> Option<i32>": "_signed_diff(self, rhs: Self) -> Option<Self::Signed>",
