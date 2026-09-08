@@ -1,0 +1,5 @@
+version: 3
+rules:
+  - ignore: true
+    conditions:
+      - expr: ActionRepoFullName == "dtolnay/rust-toolchain"
